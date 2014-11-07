@@ -1,5 +1,5 @@
 OBJS = parser.cmo scanner.cmo pmmc.cmo
-
+ 
 calc : $(OBJS)
 	ocamlc -o pmmc $(OBJS)
 
