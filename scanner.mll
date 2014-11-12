@@ -6,16 +6,21 @@ let identifier = (letter)(letter | digit)*
 
 
 rule token = parse
-  [' ' '\t' '\r' '\n' ]  { token lexbuff }
-| '(''*' { LCOMMENT}
-| '*'')' { RCOMMENT}
+  [' ' '\t' '\r' '\n' ]  { token lexbuf }
+| "(*" { comment lexbuf}
 | ';' { SEMICOLON }
 | '{' { LBRACE }
 | '}' { RBRACE }
+| '(' { LPAREN }
+| ')' { RPAREN }
 | '=' { EQUALS }
 | '<' { LTHAN }
 | '>' { GTHAN }
 | '!' { NOT }
+| '*' { TIMES }
+| "!=" { NEQ }
+| "<=" { LEQ}
+| ">=" {GEQ }
 | digit { DIGIT }
 | "at" { AT }
 | "block" { BLOCK }
@@ -40,5 +45,10 @@ rule token = parse
 | "true" { TRUE }
 | "up" { UP }
 | identifier { ID } 
+| eof { EOF }
+| digit+ as lxm { LITERAL(int_of_string lxm)}
+| _ as char { raise  (Failure("illegal character " ^ Char.escaped char))}
 
-
+and comment = parse
+"*/" { token lexbuf }
+| _ { comment lexbuf }
