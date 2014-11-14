@@ -7,7 +7,7 @@ let identifier = (letter)(letter | digit)*
 
 rule token = parse
   [' ' '\t' '\r' '\n' ]  { token lexbuf }
-| "(*" { comment lexbuf}
+| '~' { comment lexbuf}
 | ';' { SEMICOLON }
 | '{' { LBRACE }
 | '}' { RBRACE }
@@ -50,5 +50,5 @@ rule token = parse
 | _ as char { raise  (Failure("illegal character " ^ Char.escaped char))}
 
 and comment = parse
-"*/" { token lexbuf }
+'~' { token lexbuf }
 | _ { comment lexbuf }
