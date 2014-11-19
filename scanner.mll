@@ -21,7 +21,6 @@ rule token = parse
 | "!=" { NEQ }
 | "<=" { LEQ}
 | ">=" {GEQ }
-| digit { DIGIT }
 | "at" { AT }
 | "block" { BLOCK }
 | "blue" { BLUE}

@@ -14,8 +14,16 @@ type expr =
         
 type stmt =
          Block of stmt list
-       | 
+       | Expr of expr
+       | Return of expr
+       | If of expr * stmt * stmt
+       | Loop of expr * stmt
 
-type func_decl = {}
+type func_decl = {
+    fname: string; (* name of function *)
+    locals: string list; (* list of local variables *)
+    body: stmt list;
+  
+    }
 
-type program =
+type program = string list * func_decl list
