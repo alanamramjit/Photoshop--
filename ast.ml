@@ -13,7 +13,8 @@ type expr =
 
         
 type stmt =
-
+         Block of stmt list
+       | 
 
 type func_decl = {}
 
