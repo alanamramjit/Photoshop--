@@ -13,11 +13,12 @@ rule token = parse
 | '}' { RBRACE }
 | '(' { LPAREN }
 | ')' { RPAREN }
-| '=' { EQUALS }
+| '=' { ASSIGN }
 | '<' { LTHAN }
 | '>' { GTHAN }
 | '!' { NOT }
 | '*' { TIMES }
+| "=" { EQ}
 | "!=" { NEQ }
 | "<=" { LEQ}
 | ">=" {GEQ }
@@ -43,6 +44,7 @@ rule token = parse
 | "run" { RUN }
 | "true" { TRUE }
 | "up" { UP }
+| "while" { WHILE }
 | identifier { ID } 
 | eof { EOF }
 | digit+ as lxm { LITERAL(int_of_string lxm)}
