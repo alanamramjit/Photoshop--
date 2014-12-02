@@ -18,7 +18,7 @@ rule token = parse
 | '>' { GTHAN }
 | '!' { NOT }
 | '*' { TIMES }
-| "=" { EQ}
+| "==" { EQ}
 | "!=" { NEQ }
 | "<=" { LEQ}
 | ">=" {GEQ }
