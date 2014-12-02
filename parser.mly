@@ -35,10 +35,10 @@ vdecl_list:
        | vdecl_list vdecl   {$2 :: $1}
 
 vdecl:      
-        INT ID ASSIGN expr                    { Def($1, $2, $4, [], [])}
-      | BOOL ID ASSIGN expr                   { Def($1, $2, $4, [], [])}
-      | RECT ID ASSIGN expr expr (*Color*)    { Def($1, $2, $4, $5, $6)}
-      | ELLIPSE ID ASSIGN expr expr (*Color*) { Def($1, $2, $4, $5, $6)}
+        INT ID ASSIGN expr SEMICOLON                  { Def($1, $2, $4, [], [])}
+      | BOOL ID ASSIGN expr SEMICOLON          { Def($1, $2, $4, [], [])}
+      | RECT ID ASSIGN expr expr (*Color*) SEMICOLON   { Def($1, $2, $4, $5, $6)}
+      | ELLIPSE ID ASSIGN expr expr (*Color*) SEMICOLON { Def($1, $2, $4, $5, $6)}
 
 stmt_list:
                         { [] }
