@@ -27,6 +27,7 @@ rule token = parse
 | "blue" { BLUE}
 | "bool" { BOOL }
 | "down" { DOWN }
+| "drawloop" {DRAWLOOP}
 | "ellipse" { ELLIPSE }
 | "else" { ELSE }
 | "false" { FALSE }
@@ -34,11 +35,10 @@ rule token = parse
 | "if" { IF }
 | "int" { INT }
 | "left" { LEFT }
-| "loop" { LOOP }
 | "main" { MAIN }
 | "move" { MOVE }
 | "put" { PUT }
-|  "rect" { RECT }
+| "rect" { RECT }
 | "red" { RED }
 | "right" { RIGHT }
 | "run" { RUN }
