@@ -8,6 +8,7 @@ type expr =
         | Assign of string * expr
         | Binop of expr * op * expr
         | Animator of string * expr * animop * expr
+        | Put of string * expr * string * expr * expr
         (*Note: we should pre-process put at into two separate move statements that calculates put into two move statements *)
         | Call of string
 
