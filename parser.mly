@@ -21,7 +21,7 @@
 %%
 
 fdecl:
-     BLOCK ID LBRACE vdecl_list stmnt_list RBRACE
+    BLOCK ID LBRACE vdecl_list stmnt_list RBRACE
         {
           {    
             fname = $2;
@@ -32,13 +32,13 @@ fdecl:
 
 vdecl_list:
                             { [] }
-       | vdecl_list vdecl   {$2 :: $1}
+    | vdecl_list vdecl   {$2 :: $1}
 
 vdecl:      
-        INT ID ASSIGN expr SEMICOLON                  { Def($1, $2, $4, [], [])}
-      | BOOL ID ASSIGN expr SEMICOLON          { Def($1, $2, $4, [], [])}
-      | RECT ID ASSIGN expr expr (*Color*) SEMICOLON   { Def($1, $2, $4, $5, $6)}
-      | ELLIPSE ID ASSIGN expr expr (*Color*) SEMICOLON { Def($1, $2, $4, $5, $6)}
+      INT ID ASSIGN expr SEMICOLON                  { Def($1, $2, $4, [], [])}
+    | BOOL ID ASSIGN expr SEMICOLON          { Def($1, $2, $4, [], [])}
+    | RECT ID ASSIGN expr expr (*Color*) SEMICOLON   { Def($1, $2, $4, $5, $6)}
+    | ELLIPSE ID ASSIGN expr expr (*Color*) SEMICOLON { Def($1, $2, $4, $5, $6)}
 
 stmt_list:
                         { [] }
@@ -46,37 +46,37 @@ stmt_list:
 
 
 stmt:
-        expr SEMICOLON       { Expr($1)}
-      | LBRACE stmt_list RBRACE { Block(List.rev $2) }
-      | IF LPAREN expr RPAREN stmt %prec NOELSE { If ($3, $5, Block([])) }
-      | IF LPAREN expr RPAREN stmt ELSE stmt    {If($3, $5, $7) }
-      | WHILE LPAREN expr RPAREN stmt   {While ($3, $5) }]
-      | RUN ID SEMICOLON { Run($2)}
-      | DRAWLOOP LBRACE stmt_list RBRACE { Draw(List.rev $3) }
+      expr SEMICOLON                        { Expr($1)}
+    | LBRACE stmt_list RBRACE               { Block(List.rev $2) }
+    | IF LPAREN expr RPAREN stmt %prec NOELSE { If ($3, $5, Block([])) }
+    | IF LPAREN expr RPAREN stmt ELSE stmt  { If($3, $5, $7) }
+    | WHILE LPAREN expr RPAREN stmt         { While ($3, $5) }]
+    | RUN ID SEMICOLON                      { Run($2)}
+    | DRAWLOOP LBRACE stmt_list RBRACE      { Draw(List.rev $3) }
+    | PUT ID AT expr expr SEMICOLON         { Put($2, $4, $5) }
+    | MOVE ID LEFT expr SEMICOLON           { Animator ($2, Left, $4) }
+    | MOVE ID RIGHT expr SEMICOLON          { Animator ($2, Right, $4) }
+    | MOVE ID UP expr SEMICOLON             { Animator ($2, Up, $4) }
+    | MOVE ID DOWN expr SEMICOLON           { Animator ($2, Down, $4) }
 
 
 
- expr:
-     
-        LITERAL                   { Literal($1) }
-      | ID                        { Id($1) }
-      | expr PLUS   expr          { Binop($1, Add,   $3) }
-      | expr MINUS  expr          { Binop($1, Sub,   $3) }
-      | expr TIMES  expr          { Binop($1, Mult,  $3) }
-      | expr DIVIDE expr          { Binop($1, Div,   $3) }
-      | expr EQ     expr          { Binop($1, Equal, $3) }
-      | expr NEQ    expr          { Binop($1, Neq,   $3) }
-      | expr LT     expr          { Binop($1, Less,  $3) }
-      | expr LEQ    expr          { Binop($1, Leq,   $3) }
-      | expr GT     expr          { Binop($1, Greater,  $3) }
-      | expr GEQ    expr          { Binop($1, Geq,   $3) }
-      | ID ASSIGN expr            { Assign($1, $3) }
-      | LPAREN expr RPAREN        { $2 }
-      | PUT ID AT expr expr       { Put($2, $4, $5) }
-      | MOVE ID LEFT expr         { Animator ($2, Left, $4) }
-      | MOVE ID RIGHT expr        { Animator ($2, Right, $4) }
-      | MOVE ID UP expr           { Animator ($2, Up, $4) }
-      | MOVE ID DOWN expr         { Animator ($2, Down, $4) }
-
+expr:
+   
+      LITERAL                   { Literal($1) }
+    | ID                        { Id($1) }
+    | expr PLUS   expr          { Binop($1, Add,   $3) }
+    | expr MINUS  expr          { Binop($1, Sub,   $3) }
+    | expr TIMES  expr          { Binop($1, Mult,  $3) }
+    | expr DIVIDE expr          { Binop($1, Div,   $3) }
+    | expr EQ     expr          { Binop($1, Equal, $3) }
+    | expr NEQ    expr          { Binop($1, Neq,   $3) }
+    | expr LT     expr          { Binop($1, Less,  $3) }
+    | expr LEQ    expr          { Binop($1, Leq,   $3) }
+    | expr GT     expr          { Binop($1, Greater,  $3) }
+    | expr GEQ    expr          { Binop($1, Geq,   $3) }
+    | ID ASSIGN expr            { Assign($1, $3) }
+    | LPAREN expr RPAREN        { $2 }
+    
 
      
