@@ -6,22 +6,22 @@
 %token RED RIGHT RUN TRUE UP WHILE ID EOF LITERAL ASSIGN
 
 (*assign operator precedence and associativity *)
-    %nonassoc
-    %right ASSIGN
-    %left EQ NEQ
-    %left LTHAN GTHAN LEQ GEQ
-    %left PLUS MINUS
-    %left TIMES DIVIDE
-    %left MOVE 
+%nonassoc
+%right ASSIGN
+%left EQ NEQ
+%left LTHAN GTHAN LEQ GEQ
+%left PLUS MINUS
+%left TIMES DIVIDE
+%left MOVE 
 
 
-    %start program
-    %type <Ast.program> program
+%start program
+%type <Ast.program> program
 
-    %%
+%%
 
-    fdecl:
-         BLOCK ID LBRACE vdecl_list stmnt_list RBRACE
+fdecl:
+     BLOCK ID LBRACE vdecl_list stmnt_list RBRACE
 {
     {    fname = $2;
         locals = List.rev $4;
@@ -33,11 +33,15 @@ vdecl_list:
         { [] }
        | vdecl_list vdecl {$2 :: $1}
 
-vdecl:
+vdecl:      
        (* *)
+       | INT ID EQ expr { Def($1, $2, $4, [], [])}
+       | BOOL ID EQ expr { Def($1, $2, $4, [], [])}
+       | RECT ID EQ expr expr (*Color*) { Def($1, $2, $4, $5, $6)}
+       | ELLIPSE ID EQ expr expr (*Color*) { Def($1, $2, $4, $5, $6)}
 
 
- stmt_list:
+stmt_list:
                 { [] }
     | stmt_list stmt    { $2 :: $1 }
 
