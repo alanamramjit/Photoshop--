@@ -27,4 +27,7 @@ type func_decl = {
   
     }
 
+type p_type = Int | Bool | Rect | Ellipse
+
+
 type program = string list * func_decl list

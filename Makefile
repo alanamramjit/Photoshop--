@@ -1,6 +1,6 @@
-OBJS = parser.cmo scanner.cmo pmmc.cmo
+OBJS = parser.cmo scanner.cmo pmmc.cmo ast.cmo
  
-calc : $(OBJS)
+pmmc: $(OBJS)
 	ocamlc -o pmmc $(OBJS)
 
 scanner.ml : scanner.mll
@@ -10,16 +10,17 @@ parser.ml parser.mli : parser.mly
 	ocamlyacc parser.mly
 
 %.cmo : %.ml
-	ocamlc -c $<
+	ocamlc -w A -c $<
 
 %.cmi : %.mli
-	ocamlc -c $<
+	ocamlc -w A -c $<
 	
 .PHONY : clean
 clean :
 	rm -f pmmc parser.ml parser.mli scanner.ml *.cmo *.cmi
 
-
+ast.cmo:
+ast.cmx:
 pmmc.cmo: scanner.cmo parser.cmi ast.cmi
 pmmc.cmx: scanner.cmx parser.cmx ast.cmi
 parser.cmo: ast.cmi parser.cmi

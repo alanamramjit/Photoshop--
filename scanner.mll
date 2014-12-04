@@ -12,6 +12,7 @@ rule token = parse
 | '{' { LBRACE }
 | '}' { RBRACE }
 | '(' { LPAREN }
+| ',' { COMMA }
 | ')' { RPAREN }
 | '=' { ASSIGN }
 | '<' { LTHAN }
