@@ -9,8 +9,7 @@ type expr =
         | Binop of expr * op * expr
         | Animator of string * expr * animop * expr
         | Put of string * expr * string * expr * expr
-        (*Note: we should pre-process put at into two separate move statements that calculates put into two move statements *)
-        | Call of string
+       | Call of string
 
         
 type stmt =
@@ -27,7 +26,8 @@ type func_decl = {
   
     }
 
-type p_type = Int | Bool | Rect | Ellipse
+type p_type = {
+    Int | Bool | Rect | Ellipse
 
 
 type program = string list * func_decl list
