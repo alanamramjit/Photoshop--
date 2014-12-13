@@ -26,6 +26,7 @@
 program:
                 {[], []}        
      | program vdecl { ($2 :: fst $1), snd $1 }
+     | program shape_decl {($2 :: fst $1), snd $1}
      | program fdecl { fst $1, ($2 :: snd $1) }
 
 fdecl:
@@ -42,12 +43,12 @@ color:
      |  BLUE { (0, 0, 255 )}
      |  LPAREN LITERAL COMMA LITERAL COMMA LITERAL RPAREN { ($2, $4, $6) }
 
-s_type:
+shape:
         RECT { Rect}
       | ELLIPSE { Ellipse}
 
 shape_decl:
-   s_type ID ASSIGN expr COMMA expr COMMA color
+   shape ID ASSIGN expr COMMA expr COMMA color
         {
             {
                 stype = $1;
@@ -78,10 +79,12 @@ stmt:
     | MOVE ID RIGHT expr SEMICOLON          { Animator ($2, Right, $4) }
     | MOVE ID UP expr SEMICOLON             { Animator ($2, Up, $4) }
     | MOVE ID DOWN expr SEMICOLON           { Animator ($2, Down, $4) }
-
+    | vdecl SEMICOLON                       { VDec($1)}
+    | shape_decl SEMICOLON                  { SDec($1)}    
 
 
 vdecl:
+
       INT ID {Def(Int, $2, Literal(0) )}
     | BOOL ID {Def(Bool, $2, Literal(0) )}
     | INT ID ASSIGN expr           { Def(Int, $2, $4)}

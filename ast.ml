@@ -39,6 +39,8 @@ type stmt =
        | Animator of string * animop * expr
        | Put of string * expr *  expr
        | Draw of stmt list
+       | Vdec of vdecl
+       | Sdec of shape_decl
 
 type func_decl = {
     fname: string; (* name of function *)
@@ -46,4 +48,4 @@ type func_decl = {
   
     }
 
-type program = vdecl list * func_decl list
+type program = decl list * func_decl list
