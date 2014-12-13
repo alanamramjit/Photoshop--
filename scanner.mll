@@ -46,7 +46,7 @@ rule token = parse
 | "true" { TRUE }
 | "up" { UP }
 | "while" { WHILE }
-| identifier { ID } 
+| identifier as lxm { ID(lxm) } 
 | eof { EOF }
 | digit+ as lxm { LITERAL(int_of_string lxm)}
 | _ as char { raise  (Failure("illegal character " ^ Char.escaped char))}

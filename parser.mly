@@ -1,7 +1,7 @@
 %{ open Ast %}
 
 %token SEMICOLON LBRACE RBRACE LPAREN RPAREN EQ LTHAN GTHAN 
-%token NOT TIMES NEQ LEQ GEQ AT BLOCK BLUE DOWN INT NOELSE
+%token NOT TIMES NEQ LEQ GEQ AT BLOCK BLUE DOWN INT NOELSE EOF
 %token ELSE FALSE GREEN IF LEFT LOOP MAIN MOVE PUT ELLIPSE COMMA
 %token RED RIGHT RUN TRUE UP WHILE ASSIGN BOOL RECT DRAWLOOP
 %token <string> ID 
@@ -9,6 +9,7 @@
 
 %nonassoc NOELSE
 %nonassoc ELSE
+%nonassoc COMMA
 %right ASSIGN
 %left EQ NEQ
 %left LTHAN GTHAN LEQ GEQ
@@ -41,6 +42,24 @@ color:
      |  BLUE { (0, 0, 255 )}
      |  LPAREN LITERAL COMMA LITERAL COMMA LITERAL RPAREN { ($2, $4, $6) }
 
+s_type:
+        RECT { Rect}
+      | ELLIPSE { Ellipse}
+
+shape_decl:
+   s_type ID ASSIGN expr COMMA expr COMMA color
+        {
+            {
+                stype = $1;
+                sname = $2;
+                x = $4;
+                y = $6;
+                scolor = $8;
+            }
+        }
+
+
+
 
 stmt_list:
                         { [] }
@@ -63,18 +82,16 @@ stmt:
 
 
 vdecl:
-      INT ID {Def(Int, Id($2), 0 )}
-    | BOOL ID {Def(Bool, Id($2), 0 )}
-    | RECT ID {Shapedef(Rect, Id($2), 10, (255, 0, 0)) }
-    | ELLIPSE ID  {Shapedef(Ellipse, Id($2), 10, 10, (255, 0, 0))}     
-    | INT ID ASSIGN expr           { Def(Int, Id($2), $4)}
-    | BOOL ID ASSIGN boolval          { Def(Bool, Id($2), $4)}
-    | RECT ID ASSIGN expr COMMA expr COMMA color    { Shapedef(Rect, Id($2), $4, $6, $8)}
-    | ELLIPSE ID ASSIGN expr COMMA expr COMMA  color { Shapedef(Ellipse, Id($2), $4, $6, $8 )}
-
-boolval:
-        TRUE {1}
-      | FALSE {0}
+      INT ID {Def(Int, $2, Literal(0) )}
+    | BOOL ID {Def(Bool, $2, Literal(0) )}
+    | INT ID ASSIGN expr           { Def(Int, $2, $4)}
+    | BOOL ID ASSIGN boolval          { Def(Bool, $2, $4)}
+ 
+ 
+ 
+ boolval:
+        TRUE {Literal(1)}
+      | FALSE {Literal(0)}
 
 
 expr:
@@ -85,13 +102,14 @@ expr:
     | expr MINUS expr           { Binop($1, Sub,   $3) }
     | expr TIMES expr           { Binop($1, Mult,  $3) }
     | expr DIVIDE expr          { Binop($1, Div,   $3) }
-    | expr EQ expr              { Binop($1, Equal, $3) }
+    | expr EQ expr              { Binop($1, Equals, $3) }
     | expr NEQ expr             { Binop($1, Neq,   $3) }
     | expr LTHAN expr           { Binop($1, Less,  $3) }
     | expr LEQ expr             { Binop($1, Leq,   $3) }
     | expr GTHAN expr           { Binop($1, Greater,  $3) }
     | expr GEQ expr             { Binop($1, Geq,   $3) }
-    | ID ASSIGN expr            { Assign($1, $3) }
+    | ID ASSIGN expr            { Vassign($1, $3)}
+    | ID ASSIGN expr COMMA expr COMMA color    { Sassign($1, $3, $5, $7)}
     | LPAREN expr RPAREN        { $2 } 
-
+     
     

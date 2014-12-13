@@ -1,4 +1,5 @@
-type op = Add | Sub | Mult | Div | Eq | Neq | Less | Leq | Geq | Greater
+type op = Add | Sub | Mult | Div | Equals | Neq | Less | Leq | Geq | Greater
+
 type animop = Left | Right | Up | Down
 
 type p_type = Int | Bool
@@ -10,12 +11,23 @@ type color = int * int * int
 type expr =
           Literal of int 
         | Id of string
-        | Assign of string * expr
+        | Vassign of string * expr
+        | Sassign of string * expr * expr * color
         | Binop of expr * op * expr
+
+type shape_decl = {
+    stype: s_type;
+    sname: string;
+    x: expr;
+    y: expr;
+    scolor: color;
+}
+
+
+
         
 type vdecl = 
         Def of p_type * string * expr 
-      | Shapedef of s_type * string * color 
 
 type stmt =
          Block of stmt list
