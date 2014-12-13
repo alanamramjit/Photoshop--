@@ -28,32 +28,23 @@ program:
      | program fdecl { fst $1, ($2 :: snd $1) }
 
 fdecl:
-    BLOCK ID LBRACE vdecl_list stmt_list RBRACE
+    BLOCK ID LBRACE stmt_list RBRACE
         {
           {    
             fname = $2
-            locals = List.rev $4;
-            body = List.rev $5
+            body = List.rev $4
           }
         }
-vdecl_list:
-                            { [] }
-    | vdecl_list vdecl   {$2 :: $1}
+color:
+        RED {(255, 0, 0)}
+     |  GREEN { (0, 255, 0) }
+     |  BLUE { (0, 0, 255 )}
+     |  LPAREN expr COMMA expr COMMA expr RPAREN { ($2, $4, $6) }
 
-vdecl:
-      INT ID SEMICOLON  {Def(Int, $2, 0 )}
-    | BOOL ID SEMICOLON {Def(Bool, $2, false)}
-    | RECT ID SEMICOLON {Shapedef(Rect, $2, 10, 10, 255, 0, 0) }
-    | ELLIPSE ID SEMICOLON {Shapedef(Ellipse, $2, 10, 10, 255, 0, 0)}     
-    | INT ID ASSIGN expr SEMICOLON           { Def(Int, $2, $4)}
-    | BOOL ID ASSIGN expr SEMICOLON          { Def(Bool, $2, $4)}
-    | RECT ID ASSIGN expr COMMA expr COMMA expr COMMA expr COMMA expr SEMICOLON   { Shapedef(Rect, $2, $4, $6, $8, $10, $12)}
-    | ELLIPSE ID ASSIGN expr COMMA expr COMMA expr COMMA expr COMMA expr SEMICOLON { Shapedef(Ellipse, $2, $4, $6, $8, $10, $12)}
 
 stmt_list:
                         { [] }
     | stmt_list stmt    { $2 :: $1 }
-
 
 stmt:
       expr SEMICOLON                        { Expr($1)}
@@ -68,6 +59,19 @@ stmt:
     | MOVE ID RIGHT expr SEMICOLON          { Animator ($2, Right, $4) }
     | MOVE ID UP expr SEMICOLON             { Animator ($2, Up, $4) }
     | MOVE ID DOWN expr SEMICOLON           { Animator ($2, Down, $4) }
+    | vdecl SEMICOLON                       { }
+
+vdecl:
+
+      INT ID {Def(Int, $2, 0 )}
+    | BOOL ID {Def(Bool, $2, false)}
+    | RECT ID {Shapedef(Rect, $2, 10, 10, 255, 0, 0) }
+    | ELLIPSE ID  {Shapedef(Ellipse, $2, 10, 10, 255, 0, 0)}     
+    | INT ID ASSIGN expr           { Def(Int, $2, $4)}
+    | BOOL ID ASSIGN expr          { Def(Bool, $2, $4)}
+    | RECT ID ASSIGN expr COMMA expr COMMA color    { Shapedef(Rect, $2, $4, $6, $8)}
+    | ELLIPSE ID ASSIGN expr COMMA expr COMMA  color { Shapedef(Ellipse, $2, $4, $6, $8 )}
+
 
 
 
@@ -75,16 +79,16 @@ expr:
    
       LITERAL                   { Literal($1) }
     | ID                        { Id($1) }
-    | expr PLUS expr          { Binop($1, Add,   $3) }
-    | expr MINUS expr          { Binop($1, Sub,   $3) }
-    | expr TIMES expr          { Binop($1, Mult,  $3) }
+    | expr PLUS expr            { Binop($1, Add,   $3) }
+    | expr MINUS expr           { Binop($1, Sub,   $3) }
+    | expr TIMES expr           { Binop($1, Mult,  $3) }
     | expr DIVIDE expr          { Binop($1, Div,   $3) }
-    | expr EQ expr          { Binop($1, Equal, $3) }
-    | expr NEQ expr          { Binop($1, Neq,   $3) }
-    | expr LTHAN expr          { Binop($1, Less,  $3) }
-    | expr LEQ expr          { Binop($1, Leq,   $3) }
-    | expr GTHAN expr          { Binop($1, Greater,  $3) }
-    | expr GEQ expr          { Binop($1, Geq,   $3) }
+    | expr EQ expr              { Binop($1, Equal, $3) }
+    | expr NEQ expr             { Binop($1, Neq,   $3) }
+    | expr LTHAN expr           { Binop($1, Less,  $3) }
+    | expr LEQ expr             { Binop($1, Leq,   $3) }
+    | expr GTHAN expr           { Binop($1, Greater,  $3) }
+    | expr GEQ expr             { Binop($1, Geq,   $3) }
     | ID ASSIGN expr            { Assign($1, $3) }
     | LPAREN expr RPAREN        { $2 } 
 
