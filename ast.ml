@@ -7,9 +7,7 @@ type expr =
         | Id of string
         | Assign of string * expr
         | Binop of expr * op * expr
-        | Animator of string * expr * animop * expr
-        | Put of string * expr * string * expr * expr
-       | Call of string
+        
 
         
 type stmt =
@@ -17,7 +15,15 @@ type stmt =
        | Expr of expr
        | Return of expr
        | If of expr * stmt * stmt
-       | Loop of expr * stmt
+       | While of expr * stmt
+       | Run of string
+       | Animator of string * expr * animop * expr
+       | Put of string * expr *  expr
+       | Draw of stmt_list
+
+type vdecl = 
+        Def of p_type * string * expr 
+      | Shapedef of s_type * expr * (expr, expr, expr) 
 
 type func_decl = {
     fname: string; (* name of function *)
@@ -26,8 +32,9 @@ type func_decl = {
   
     }
 
-type p_type = {
-    Int | Bool | Rect | Ellipse
+type p_type = Int | Bool
+
+type s_type = Rect | Ellipse
 
 
 type program = string list * func_decl list

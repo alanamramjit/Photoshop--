@@ -64,15 +64,17 @@ stmt:
 vdecl:
 
       INT ID {Def(Int, $2, 0 )}
-    | BOOL ID {Def(Bool, $2, false)}
+    | BOOL ID {Def(Bool, $2, 0 )}
     | RECT ID {Shapedef(Rect, $2, 10, 10, 255, 0, 0) }
     | ELLIPSE ID  {Shapedef(Ellipse, $2, 10, 10, 255, 0, 0)}     
     | INT ID ASSIGN expr           { Def(Int, $2, $4)}
-    | BOOL ID ASSIGN expr          { Def(Bool, $2, $4)}
+    | BOOL ID ASSIGN boolval          { Def(Bool, $2, $4)}
     | RECT ID ASSIGN expr COMMA expr COMMA color    { Shapedef(Rect, $2, $4, $6, $8)}
     | ELLIPSE ID ASSIGN expr COMMA expr COMMA  color { Shapedef(Ellipse, $2, $4, $6, $8 )}
 
-
+boolval:
+        TRUE {1}
+      | FALSE {0}
 
 
 expr:
