@@ -2,6 +2,12 @@ type op = Add | Sub | Mult | Div | Eq | Neq | Less | Leq | Geq
 
 type animop = Left | Right | Up | Down
 
+type p_type = Int | Bool
+
+type s_type = Rect | Ellipse
+
+
+
 type expr =
           Literal of int
         | Id of string
@@ -19,22 +25,16 @@ type stmt =
        | Run of string
        | Animator of string * expr * animop * expr
        | Put of string * expr *  expr
-       | Draw of stmt_list
+       | Draw of stmt list
 
 type vdecl = 
         Def of p_type * string * expr 
-      | Shapedef of s_type * expr * (expr, expr, expr) 
+      | Shapedef of s_type * expr * (expr *  expr * expr) 
 
 type func_decl = {
     fname: string; (* name of function *)
-    locals: string list; (* list of local variables *)
     body: stmt list;
   
     }
-
-type p_type = Int | Bool
-
-type s_type = Rect | Ellipse
-
 
 type program = string list * func_decl list

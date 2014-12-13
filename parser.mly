@@ -31,8 +31,8 @@ fdecl:
     BLOCK ID LBRACE stmt_list RBRACE
         {
           {    
-            fname = $2
-            body = List.rev $4
+            fname = $2;
+            body = List.rev $4;
           }
         }
 color:
@@ -47,7 +47,7 @@ stmt_list:
     | stmt_list stmt    { $2 :: $1 }
 
 stmt:
-      expr SEMICOLON                        { Expr($1)}
+      expr SEMICOLON                        {}
     | LBRACE stmt_list RBRACE               { Block(List.rev $2) }
     | IF LPAREN expr RPAREN stmt %prec NOELSE     { If ($3, $5, Block([])) }
     | IF LPAREN expr RPAREN stmt ELSE stmt  { If($3, $5, $7) }
