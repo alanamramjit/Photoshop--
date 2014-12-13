@@ -48,24 +48,24 @@ type func_decl = {
 
 type program = vdecl list * func_decl list
 
+let string_of_op = function
+  Add -> "+"
+  | Sub -> "-"
+  | Mult -> "*"
+  | Div -> "/"
+  | Eq -> "=="
+  | Neq -> "!="
+  | Less -> "<"
+  | Leq -> "<="
+  | Greater -> ">"
+  | Geq -> ">="
 
 let rec string_of_expr = function
     Literal(l) -> string_of_int l
   | Id(id) -> id
   | Boolean(b) -> if b then 1 else 0
   | Binop(ex1, op, ex2) ->
-      string_of_expr e1 ^ " " ^ (match op with
-          Add -> "+"
-        | Sub -> "-"
-        | Mult -> "*"
-        | Div -> "/"
-        | Eq -> "=="
-        | Neq -> "!="
-        | Less -> "<"
-        | Leq -> "<="
-        | Greater -> ">"
-        | Geq -> ">="
-      ) ^ " " ^ string_of_expr e2
+      string_of_expr e1 ^ " " ^ (string_of_op op) ^ " " ^ string_of_expr e2
   | Assign(ex1, ex2) -> string_of_expr e1 ^ " = " ^ string_of_expr e2
 
 let string_of_vdecl = function 
