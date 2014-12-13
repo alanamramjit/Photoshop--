@@ -39,7 +39,7 @@ color:
         RED {(255, 0, 0)}
      |  GREEN { (0, 255, 0) }
      |  BLUE { (0, 0, 255 )}
-     |  LPAREN expr COMMA expr COMMA expr RPAREN { ($2, $4, $6) }
+     |  LPAREN LITERAL COMMA LITERAL COMMA LITERAL RPAREN { ($2, $4, $6) }
 
 
 stmt_list:
@@ -47,7 +47,7 @@ stmt_list:
     | stmt_list stmt    { $2 :: $1 }
 
 stmt:
-      expr SEMICOLON                        {}
+      expr SEMICOLON                        {Expr($1)}
     | LBRACE stmt_list RBRACE               { Block(List.rev $2) }
     | IF LPAREN expr RPAREN stmt %prec NOELSE     { If ($3, $5, Block([])) }
     | IF LPAREN expr RPAREN stmt ELSE stmt  { If($3, $5, $7) }
@@ -59,18 +59,18 @@ stmt:
     | MOVE ID RIGHT expr SEMICOLON          { Animator ($2, Right, $4) }
     | MOVE ID UP expr SEMICOLON             { Animator ($2, Up, $4) }
     | MOVE ID DOWN expr SEMICOLON           { Animator ($2, Down, $4) }
-    | vdecl SEMICOLON                       { }
+
+
 
 vdecl:
-
-      INT ID {Def(Int, $2, 0 )}
-    | BOOL ID {Def(Bool, $2, 0 )}
-    | RECT ID {Shapedef(Rect, $2, 10, 10, 255, 0, 0) }
-    | ELLIPSE ID  {Shapedef(Ellipse, $2, 10, 10, 255, 0, 0)}     
-    | INT ID ASSIGN expr           { Def(Int, $2, $4)}
-    | BOOL ID ASSIGN boolval          { Def(Bool, $2, $4)}
-    | RECT ID ASSIGN expr COMMA expr COMMA color    { Shapedef(Rect, $2, $4, $6, $8)}
-    | ELLIPSE ID ASSIGN expr COMMA expr COMMA  color { Shapedef(Ellipse, $2, $4, $6, $8 )}
+      INT ID {Def(Int, Id($2), 0 )}
+    | BOOL ID {Def(Bool, Id($2), 0 )}
+    | RECT ID {Shapedef(Rect, Id($2), 10, (255, 0, 0)) }
+    | ELLIPSE ID  {Shapedef(Ellipse, Id($2), 10, 10, (255, 0, 0))}     
+    | INT ID ASSIGN expr           { Def(Int, Id($2), $4)}
+    | BOOL ID ASSIGN boolval          { Def(Bool, Id($2), $4)}
+    | RECT ID ASSIGN expr COMMA expr COMMA color    { Shapedef(Rect, Id($2), $4, $6, $8)}
+    | ELLIPSE ID ASSIGN expr COMMA expr COMMA  color { Shapedef(Ellipse, Id($2), $4, $6, $8 )}
 
 boolval:
         TRUE {1}
