@@ -4,7 +4,7 @@ type animop = Left | Right | Up | Down
 
 type s_type = Rect | Ellipse
 
-type sdesc = Width | Height | X | Y
+type sdesc = Width | Height | X | Y | Color
 
 type color = int * int * int
 
@@ -14,8 +14,9 @@ type expr =
         | Vassign of string * expr
         | Binop of expr * op * expr
         | Get of string * sdesc
-
-
+        | Set of string * sdesc * expr
+        | Rgb of (color)
+        
 type p_type = Int | Bool 
       
 type shape =   {

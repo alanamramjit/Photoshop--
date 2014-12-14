@@ -27,6 +27,7 @@ rule token = parse
 | ".y" { GETY }
 | ".width" { WIDTH}
 | ".height" {HEIGHT}
+| ".color" {GETCOLOR}
 | "at" { AT }
 | "block" { BLOCK }
 | "blue" { BLUE}
