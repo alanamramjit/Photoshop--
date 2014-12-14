@@ -3,7 +3,8 @@
 %token SEMICOLON LBRACE RBRACE LPAREN RPAREN EQ LTHAN GTHAN 
 %token NOT TIMES NEQ LEQ GEQ AT BLOCK BLUE DOWN INT NOELSE EOF
 %token ELSE FALSE GREEN IF LEFT LOOP MAIN MOVE PUT ELLIPSE COMMA
-%token RED RIGHT RUN TRUE UP WHILE ASSIGN BOOL RECT DRAWLOOP
+%token RED RIGHT RUN TRUE UP WHILE ASSIGN BOOL RECT DRAWLOOP DOT
+%token X Y WIDTH HEIGHT
 %token <string> ID 
 %token <int> LITERAL 
 
@@ -23,10 +24,10 @@
 
 %%
 
+
 program:
                 {[], []}        
      | program vdecl { ($2 :: fst $1), snd $1 }
-     | program shape_decl {($2 :: fst $1), snd $1}
      | program fdecl { fst $1, ($2 :: snd $1) }
 
 fdecl:
@@ -47,18 +48,29 @@ shape:
         RECT { Rect}
       | ELLIPSE { Ellipse}
 
-shape_decl:
-   shape ID ASSIGN expr COMMA expr COMMA color
-        {
+
+vdecl:
+   shape ID ASSIGN expr COMMA expr COMMA expr COMMA expr COMMA color
+        { Shape(
             {
                 stype = $1;
                 sname = $2;
                 x = $4;
                 y = $6;
-                scolor = $8;
+                w = $8;
+                h = $10;
+                scolor = $12;
             }
+        )
         }
 
+  
+    | INT ID {Def(Int, $2, Literal(0) )}
+    | BOOL ID {Def(Bool, $2, Literal(0) )}
+    | INT ID ASSIGN expr           { Def(Int, $2, $4)}
+    | BOOL ID ASSIGN boolval          { Def(Bool, $2, $4)}
+ 
+ 
 
 
 
@@ -79,23 +91,13 @@ stmt:
     | MOVE ID RIGHT expr SEMICOLON          { Animator ($2, Right, $4) }
     | MOVE ID UP expr SEMICOLON             { Animator ($2, Up, $4) }
     | MOVE ID DOWN expr SEMICOLON           { Animator ($2, Down, $4) }
-    | vdecl SEMICOLON                       { VDec($1)}
-    | shape_decl SEMICOLON                  { SDec($1)}    
+    | vdecl SEMICOLON                       { Vdec($1)}
+   
 
-
-vdecl:
-
-      INT ID {Def(Int, $2, Literal(0) )}
-    | BOOL ID {Def(Bool, $2, Literal(0) )}
-    | INT ID ASSIGN expr           { Def(Int, $2, $4)}
-    | BOOL ID ASSIGN boolval          { Def(Bool, $2, $4)}
- 
- 
  
  boolval:
         TRUE {Literal(1)}
       | FALSE {Literal(0)}
-
 
 expr:
    
@@ -114,5 +116,8 @@ expr:
     | ID ASSIGN expr            { Vassign($1, $3)}
     | ID ASSIGN expr COMMA expr COMMA color    { Sassign($1, $3, $5, $7)}
     | LPAREN expr RPAREN        { $2 } 
-     
+    | ID X              {Get($1, X)} 
+    | ID Y              {Get ($1, Y)}
+    | ID WIDTH          {Get ($1, Width)}
+    | ID HEIGHT         {Get ($1, Height)}
     

@@ -23,6 +23,10 @@ rule token = parse
 | "!=" { NEQ }
 | "<=" { LEQ}
 | ">=" {GEQ }
+| ".x" { X }
+| ".y" { Y }
+| ".width" { WIDTH}
+| ".height" {HEIGHT}
 | "at" { AT }
 | "block" { BLOCK }
 | "blue" { BLUE}
@@ -54,3 +58,4 @@ rule token = parse
 and comment = parse
 '~' { token lexbuf }
 | _ { comment lexbuf }
+| eof { raise (Failure ("unclosed comment" ))}   

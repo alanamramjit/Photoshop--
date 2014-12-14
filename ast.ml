@@ -2,9 +2,9 @@ type op = Add | Sub | Mult | Div | Equals | Neq | Less | Leq | Geq | Greater
 
 type animop = Left | Right | Up | Down
 
-type p_type = Int | Bool
-
 type s_type = Rect | Ellipse
+
+type sdesc = Width | Height | X | Y
 
 type color = int * int * int
 
@@ -14,20 +14,25 @@ type expr =
         | Vassign of string * expr
         | Sassign of string * expr * expr * color
         | Binop of expr * op * expr
+        | Get of string * sdesc
 
-type shape_decl = {
+type p_type = Int | Bool 
+      
+type shape =   {
     stype: s_type;
     sname: string;
     x: expr;
     y: expr;
+    w: expr;
+    h: expr;
     scolor: color;
-}
+   }
 
 
-
+type v_decl =
+          Shape of shape
+        | Def of p_type * string * expr
         
-type vdecl = 
-        Def of p_type * string * expr 
 
 type stmt =
          Block of stmt list
@@ -39,8 +44,8 @@ type stmt =
        | Animator of string * animop * expr
        | Put of string * expr *  expr
        | Draw of stmt list
-       | Vdec of vdecl
-       | Sdec of shape_decl
+       | Vdec of v_decl
+      
 
 type func_decl = {
     fname: string; (* name of function *)
@@ -48,8 +53,8 @@ type func_decl = {
   
     }
 
-type program = vdecl list * func_decl list
-
+type program = v_decl list * func_decl list
+(*
 let string_of_op = function
   Add -> "+"
   | Sub -> "-"
@@ -89,4 +94,4 @@ let rec string_of_stmt = function
   | Draw(stmt) -> 
   | Put(id, ex1, ex2) ->
   | Animator(id, dir, ex) ->
-
+*)
