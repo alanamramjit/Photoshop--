@@ -12,9 +12,9 @@ type expr =
           Literal of int 
         | Id of string
         | Vassign of string * expr
-        | Sassign of string * expr * expr * color
         | Binop of expr * op * expr
         | Get of string * sdesc
+
 
 type p_type = Int | Bool 
       
@@ -54,6 +54,7 @@ type func_decl = {
     }
 
 type program = v_decl list * func_decl list
+
 (*
 let string_of_op = function
   Add -> "+"

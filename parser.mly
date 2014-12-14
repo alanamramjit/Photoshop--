@@ -4,7 +4,7 @@
 %token NOT TIMES NEQ LEQ GEQ AT BLOCK BLUE DOWN INT NOELSE EOF
 %token ELSE FALSE GREEN IF LEFT LOOP MAIN MOVE PUT ELLIPSE COMMA
 %token RED RIGHT RUN TRUE UP WHILE ASSIGN BOOL RECT DRAWLOOP DOT
-%token X Y WIDTH HEIGHT
+%token GETX GETY WIDTH HEIGHT
 %token <string> ID 
 %token <int> LITERAL 
 
@@ -114,10 +114,9 @@ expr:
     | expr GTHAN expr           { Binop($1, Greater,  $3) }
     | expr GEQ expr             { Binop($1, Geq,   $3) }
     | ID ASSIGN expr            { Vassign($1, $3)}
-    | ID ASSIGN expr COMMA expr COMMA color    { Sassign($1, $3, $5, $7)}
     | LPAREN expr RPAREN        { $2 } 
-    | ID X              {Get($1, X)} 
-    | ID Y              {Get ($1, Y)}
+    | ID GETX              {Get($1, X)} 
+    | ID GETY              {Get ($1, Y)}
     | ID WIDTH          {Get ($1, Width)}
     | ID HEIGHT         {Get ($1, Height)}
     

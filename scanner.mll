@@ -23,8 +23,8 @@ rule token = parse
 | "!=" { NEQ }
 | "<=" { LEQ}
 | ">=" {GEQ }
-| ".x" { X }
-| ".y" { Y }
+| ".x" { GETX }
+| ".y" { GETY }
 | ".width" { WIDTH}
 | ".height" {HEIGHT}
 | "at" { AT }
