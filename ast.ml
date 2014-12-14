@@ -56,7 +56,7 @@ type func_decl = {
 
 type program = v_decl list * func_decl list
 
-(*
+
 let string_of_op = function
   Add -> "+"
   | Sub -> "-"
@@ -69,21 +69,26 @@ let string_of_op = function
   | Greater -> ">"
   | Geq -> ">="
 
+let string_of_color r g b = 
+  "new Color(" ^ r ^ ", " ^ g ^ ", " ^ b ^ ")";
+
+let string_of_stype = function
+  Rect -> "Shape.Type.RECTANGLE"
+  | Ellipse -> "Shape.Type.ELLIPSE"
+
 let rec string_of_expr = function
     Literal(l) -> string_of_int l
   | Id(id) -> id
   | Boolean(b) -> if b then 1 else 0
-  | Binop(ex1, op, ex2) ->
-      string_of_expr e1 ^ " " ^ (string_of_op op) ^ " " ^ string_of_expr e2
-  | Assign(ex1, ex2) -> string_of_expr e1 ^ " = " ^ string_of_expr e2
+  | Binop(e1, op, e2) ->
+      string_of_expr e1 ^ " " ^ string_of_op op ^ " " ^ string_of_expr e2
+  | Assign(e1, e2) -> string_of_expr e1 ^ " = " ^ string_of_expr e2
 
 let string_of_vdecl = function 
     Def(ty, id, ex) -> ty ^ " = " ^ string_of_expr ex
 
-let string_of_shape_decl = function    
-    (* Depends on Graphics library we choose *)
-  | Shapedef(ty, id, ex1, ex2, (r, g, b)) -> 
-
+let string_of_shape_decl shape_defn =
+  "Shape " ^ shape_defn.sname ^ " = new Shape(new Rectangle(" ^ shape_defn.x ^ ", " ^ shape_defn.y ^ ", " ^ shape_defn.w ^ ", " ^ shape_defn.h ^ "), " ^ (string_of_color shape_defn.r shape_defn.g shape_defn.g) ^ ", " ^ string_of_stype shape_defn.stype ^ ")"
 
 let rec string_of_stmt = function
     Expr(ex) -> ex * " ; "
@@ -96,4 +101,4 @@ let rec string_of_stmt = function
   | Draw(stmt) -> 
   | Put(id, ex1, ex2) ->
   | Animator(id, dir, ex) ->
-*)
+
