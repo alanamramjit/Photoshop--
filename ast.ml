@@ -48,4 +48,45 @@ type func_decl = {
   
     }
 
-type program = decl list * func_decl list
+type program = vdecl list * func_decl list
+
+let string_of_op = function
+  Add -> "+"
+  | Sub -> "-"
+  | Mult -> "*"
+  | Div -> "/"
+  | Eq -> "=="
+  | Neq -> "!="
+  | Less -> "<"
+  | Leq -> "<="
+  | Greater -> ">"
+  | Geq -> ">="
+
+let rec string_of_expr = function
+    Literal(l) -> string_of_int l
+  | Id(id) -> id
+  | Boolean(b) -> if b then 1 else 0
+  | Binop(ex1, op, ex2) ->
+      string_of_expr e1 ^ " " ^ (string_of_op op) ^ " " ^ string_of_expr e2
+  | Assign(ex1, ex2) -> string_of_expr e1 ^ " = " ^ string_of_expr e2
+
+let string_of_vdecl = function 
+    Def(ty, id, ex) -> ty ^ " = " ^ string_of_expr ex
+
+let string_of_shape_decl = function    
+    (* Depends on Graphics library we choose *)
+  | Shapedef(ty, id, ex1, ex2, (r, g, b)) -> 
+
+
+let rec string_of_stmt = function
+    Expr(ex) -> ex * " ; "
+  | Block(s) -> "{\n"^String.concat"" (List.map string_of_stmt s) ^ "}\n"
+  | If(ex, s, Block([])) -> "if (" ^ string_of_expr ex ^")\n" ^string_of_stmt s
+  | If(ex, s1, s2) -> "if (" ^ string_of_expr ex ^")\n"^string_of_stmt s1 "else\n" ^ string_of_stmt s2
+  | While(ex, s) -> "while (" ^ string_of_expr ex ^")\n" string_of_stmt s 
+  | Run(id) -> id^"();"
+  (* Graphics library dependency *)
+  | Draw(stmt) -> 
+  | Put(id, ex1, ex2) ->
+  | Animator(id, dir, ex) ->
+
