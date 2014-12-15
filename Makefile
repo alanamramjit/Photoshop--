@@ -1,4 +1,4 @@
-OBJS = parser.cmo scanner.cmo pmmc.cmo ast.cmo
+OBJS = parser.cmo scanner.cmo ast.cmo pmmc.cmo
  
 pmmc: $(OBJS)
 	ocamlc -o pmmc $(OBJS)
