@@ -1,7 +1,7 @@
 open Ast
 
 let op_to_string = function
-	Add -> "+"
+	  Add -> "+"
 	| Sub -> "-"
 	| Mult -> "*"
 	| Div -> "/"
