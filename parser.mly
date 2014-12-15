@@ -24,18 +24,6 @@
 
 %%
 
-<<<<<<< HEAD
-
-/* program:
-                {[], []}        
-     | program vdecl { ($2 :: fst $1), snd $1 }
-     | program fdecl { fst $1, ($2 :: snd $1) } */
-
-program:
-    { [] }
-    | program vdecl { Vdecl($2)::(List.rev $1) }
-    | program fdecl { Fdecl($2)::(List.rev $1) }
-
 program:
                     {[], []}        
   | program vdecl   { ($2 :: fst $1), snd $1 }

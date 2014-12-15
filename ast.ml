@@ -150,9 +150,11 @@ let string_of_program program =
 
 
 let string_of_func f_decl =
-       "public void " ^ fdecl.fname ^ "{" ^ String.concat "\n" (List.map string_of_stmt f_decl.body ^ "}"
+       "public void " ^ fdecl.fname ^ "{" ^ String.concat "\n" (List.map string_of_stmt f_decl.body) ^ "}"
 
 let string_of_program = function
         Var(dec) -> string_of_vdecl(dec)
      |  Fun(f) -> string_of_func(f)
- 
+
+let program_string p = 
+        String.concat "" (List.map string_of_program p) 
