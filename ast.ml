@@ -126,8 +126,6 @@ let rec string_of_stmt = function
   | Draw(block) -> "{\n"^String.concat"" (List.map string_of_stmt block) ^ "}\n"
   | Vdecl(var) -> string_of_vdecl var ^ ";"
 
-<<<<<<< HEAD
-       
 
 let check_program program = 
   let (shape_defs, func_defs, drawloop) = 
@@ -152,8 +150,9 @@ let string_of_program program =
 
 
 let string_of_func f_decl =
+       "public void " ^ fdecl.fname ^ "{" ^ String.concat "\n" (List.map string_of_stmt f_decl.body ^ "}"
 
 let string_of_program = function
-        Vdecl(dec) -> string_of_vdecl(dec)
-     |  func_decl
+        Var(dec) -> string_of_vdecl(dec)
+     |  Fun(f) -> string_of_func(f)
  
