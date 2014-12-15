@@ -9,49 +9,48 @@ type sdesc = Width | Height | X | Y | Color
 type color = int * int * int
 
 type expr =
-          Literal of int 
-        | Id of string
-        | Vassign of string * expr
-        | Binop of expr * op * expr
-        | Get of string * sdesc
-        | Set of string * sdesc * expr
-        | Rgb of (color)
+    Literal of int 
+  | Id of string
+  | Vassign of string * expr
+  | Binop of expr * op * expr
+  | Get of string * sdesc
+  | Set of string * sdesc * expr
+  | Rgb of (color)
         
 type p_type = Int | Bool 
       
 type shape =   {
-    stype: s_type;
-    sname: string;
-    x: expr;
-    y: expr;
-    w: expr;
-    h: expr;
-    scolor: color;
-   }
+  stype: s_type;
+  sname: string;
+  x: expr;
+  y: expr;
+  w: expr;
+  h: expr;
+  scolor: color;
+}
 
 
 type v_decl =
-          Shape of shape
-        | Def of p_type * string * expr
+    Shape of shape
+  | Def of p_type * string * expr
         
 
 type stmt =
-         Block of stmt list
-       | Expr of expr
-       | If of expr * stmt * stmt
-       | While of expr * stmt
-       | Run of string
-       | Animator of string * animop * expr
-       | Put of string * expr *  expr
-       | Draw of stmt list
-       | Vdecl of v_decl
+    Block of stmt list
+  | Expr of expr
+  | If of expr * stmt * stmt
+  | While of expr * stmt
+  | Run of string
+  | Animator of string * animop * expr
+  | Put of string * expr *  expr
+  | Draw of stmt list
+  | Vdecl of v_decl
       
 
 type func_decl = {
-    fname: string; (* name of function *)
-    body: stmt list;
-  
-    }
+  fname: string; (* name of function *)
+  body: stmt list;
+}
 
 
 
@@ -63,7 +62,7 @@ type prog_funcs =
 
 
 let string_of_op = function
-  Add -> "+"
+    Add -> "+"
   | Sub -> "-"
   | Mult -> "*"
   | Div -> "/"
@@ -122,18 +121,13 @@ let rec string_of_stmt = function
   | If(ex, s1, s2) -> "if (" ^ string_of_expr ex ^")\n"^string_of_stmt s1 ^ "else\n" ^ string_of_stmt s2
   | While(ex, s) -> "while (" ^ string_of_expr ex ^")\n"^ string_of_stmt s 
   | Run(id) -> id^"();"
-  (* Graphics library dependency *)
   | Put(id, ex1, ex2) -> id ^ ".frame.x = " ^ string_of_expr ex1 ^ "; " ^ id ^ ".frame.y = " ^ string_of_expr ex2 ^ ";"
   | Animator(id, dir, ex) -> id ^ string_of_direction dir ^ string_of_expr ex ^ ";"
   | Draw(block) -> "{\n"^String.concat"" (List.map string_of_stmt block) ^ "}\n"
   | Vdecl(var) -> string_of_vdecl var ^ ";"
 
-let string_of_func f_decl =
-
-let string_of_program = function
-        Vdecl(dec) -> string_of_vdecl(dec)
-     |  func_decl
-        
+<<<<<<< HEAD
+       
 
 let check_program program = 
   let (shape_defs, func_defs, drawloop) = 
@@ -144,3 +138,22 @@ let check_program program =
         )
     ) ("", "", "") program
   in (shape_defs, func_defs, drawloop)
+=======
+let string_of_program program = 
+  let (shape_defs, func_defs, drawloop) = 
+    List.fold_left (
+      fun (shape_defs, func_defs, drawloop) prog ->
+        (match prog with
+          Fdecl(func) -> ("", "", "") (* let func_defs = func_defs ^ string_of_fdecl func in (shape_defs, func_defs, drawloop) *)
+          (* | Vdecl(var) -> let shape_defs = shape_defs ^ string_of_vdecl var ^ ";" in (shape_defs, func_defs, drawloop) *)
+        )
+    ) ("", "", "") program
+  in (shape_defs, func_defs, drawloop)
+>>>>>>> 437248a75ddae029b3a7fb3f3b7647396aa5fadb
+
+let string_of_func f_decl =
+
+let string_of_program = function
+        Vdecl(dec) -> string_of_vdecl(dec)
+     |  func_decl
+ 
