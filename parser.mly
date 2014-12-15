@@ -35,12 +35,12 @@ program:
     { [] }
     | program vdecl { Vdecl($2)::(List.rev $1) }
     | program fdecl { Fdecl($2)::(List.rev $1) }
-=======
+
 program:
                     {[], []}        
   | program vdecl   { ($2 :: fst $1), snd $1 }
   | program fdecl   { fst $1, ($2 :: snd $1) }
->>>>>>> 437248a75ddae029b3a7fb3f3b7647396aa5fadb
+
 
 fdecl:
   BLOCK ID LBRACE stmt_list RBRACE

@@ -138,7 +138,7 @@ let check_program program =
         )
     ) ("", "", "") program
   in (shape_defs, func_defs, drawloop)
-=======
+
 let string_of_program program = 
   let (shape_defs, func_defs, drawloop) = 
     List.fold_left (
@@ -149,7 +149,7 @@ let string_of_program program =
         )
     ) ("", "", "") program
   in (shape_defs, func_defs, drawloop)
->>>>>>> 437248a75ddae029b3a7fb3f3b7647396aa5fadb
+
 
 let string_of_func f_decl =
 
