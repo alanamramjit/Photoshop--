@@ -32,10 +32,10 @@ program:
 fdecl:
   BLOCK ID LBRACE stmt_list RBRACE
   {
-    {    
+    Fdecl({    
       fname = $2;
       body = List.rev $4;
-    }
+    })
   }
 
 color:
@@ -83,7 +83,7 @@ stmt:
   | MOVE ID RIGHT expr SEMICOLON              { Animator ($2, Right, $4) }
   | MOVE ID UP expr SEMICOLON                 { Animator ($2, Up, $4) }
   | MOVE ID DOWN expr SEMICOLON               { Animator ($2, Down, $4) }
-  | vdecl SEMICOLON                           { Vdecl($1)}
+  | vdecl SEMICOLON                           { Vdecl($1) }
 
 
 boolval:

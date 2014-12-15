@@ -120,3 +120,13 @@ let rec string_of_stmt = function
   | Draw(block) -> "{\n"^String.concat"" (List.map string_of_stmt block) ^ "}\n"
   | Vdecl(var) -> string_of_vdecl var ^ ";"
 
+let string_of_program program = 
+  let (shape_defs, func_defs, drawloop) = 
+    List.fold_left (
+      fun (shape_defs, func_defs, drawloop) prog ->
+        (match prog with
+          Fdecl(func) -> ("", "", "") (* let func_defs = func_defs ^ string_of_fdecl func in (shape_defs, func_defs, drawloop) *)
+          (* | Vdecl(var) -> let shape_defs = shape_defs ^ string_of_vdecl var ^ ";" in (shape_defs, func_defs, drawloop) *)
+        )
+    ) ("", "", "") program
+  in (shape_defs, func_defs, drawloop)
