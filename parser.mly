@@ -33,10 +33,10 @@ program:
 fdecl:
   BLOCK ID LBRACE stmt_list RBRACE
   {
-    Fdecl({    
+    {    
       fname = $2;
       body = List.rev $4;
-    })
+    }
   }
 
 color:

@@ -126,35 +126,25 @@ let rec string_of_stmt = function
   | Draw(block) -> "{\n"^String.concat"" (List.map string_of_stmt block) ^ "}\n"
   | Vdecl(var) -> string_of_vdecl var ^ ";"
 
-
 let check_program program = 
-  let (shape_defs, func_defs, drawloop) = 
-    List.fold_left (
-      fun (shape_defs, func_defs, drawloop) program ->
-        (match program with
-          Vdecl(var) -> let shape_defs = shape_defs ^ string_of_vdecl var ^ ";" in shape_defs
-        )
-    ) ("", "", "") program
-  in (shape_defs, func_defs, drawloop)
-
-let string_of_program program = 
   let (shape_defs, func_defs, drawloop) = 
     List.fold_left (
       fun (shape_defs, func_defs, drawloop) prog ->
         (match prog with
-          Fdecl(func) -> ("", "", "") (* let func_defs = func_defs ^ string_of_fdecl func in (shape_defs, func_defs, drawloop) *)
-          (* | Vdecl(var) -> let shape_defs = shape_defs ^ string_of_vdecl var ^ ";" in (shape_defs, func_defs, drawloop) *)
+          Fun(func) -> ("", "", "") (* let func_defs = func_defs ^ string_of_fdecl func in (shape_defs, func_defs, drawloop) *)
+          | Var(var) -> let shape_defs = shape_defs ^ string_of_vdecl var ^ ";" in (shape_defs, func_defs, drawloop)
         )
     ) ("", "", "") program
   in (shape_defs, func_defs, drawloop)
 
 
 let string_of_func f_decl =
-       "public void " ^ fdecl.fname ^ "{" ^ String.concat "\n" (List.map string_of_stmt f_decl.body) ^ "}"
+       "public void " ^ f_decl.fname ^ "{" ^ String.concat "\n" (List.map string_of_stmt f_decl.body) ^ "}"
 
 let string_of_program = function
         Var(dec) -> string_of_vdecl(dec)
      |  Fun(f) -> string_of_func(f)
 
 let program_string p = 
-        String.concat "" (List.map string_of_program p) 
+  let (v_list, f_list) = p in
+        String.concat "" (List.map string_of_program v_list) 
