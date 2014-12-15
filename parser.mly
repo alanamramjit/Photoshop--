@@ -45,26 +45,23 @@ color:
      |  LPAREN LITERAL COMMA LITERAL COMMA LITERAL RPAREN { ($2, $4, $6) }
 
 shape:
-        RECT { Rect}
-      | ELLIPSE { Ellipse}
+        RECT { Rect }
+      | ELLIPSE { Ellipse }
 
 
 vdecl:
-   shape ID ASSIGN expr COMMA expr COMMA expr COMMA expr COMMA color
+      shape ID ASSIGN expr COMMA expr COMMA expr COMMA expr COMMA color
         { Shape(
-            {
-                stype = $1;
-                sname = $2;
-                x = $4;
-                y = $6;
-                w = $8;
-                h = $10;
-                scolor = $12;
-            }
-        )
-        }
-
-  
+          {
+            stype = $1;
+            sname = $2;
+            x = $4;
+            y = $6;
+            w = $8;
+            h = $10;
+            scolor = $12;
+          }
+        )}
     | INT ID                    {Def(Int, $2, Literal(0) )}
     | BOOL ID                   {Def(Bool, $2, Literal(0) )}
     | INT ID ASSIGN expr        {Def(Int, $2, $4)}

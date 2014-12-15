@@ -62,43 +62,60 @@ let string_of_op = function
   | Sub -> "-"
   | Mult -> "*"
   | Div -> "/"
-  | Eq -> "=="
+  | Equals -> "=="
   | Neq -> "!="
   | Less -> "<"
   | Leq -> "<="
   | Greater -> ">"
   | Geq -> ">="
 
-let string_of_color r g b = 
-  "new Color(" ^ r ^ ", " ^ g ^ ", " ^ b ^ ")";
+let string_of_prop = function
+    X -> ".frame.x"
+  | Y -> ".frame.y"
+  | Width -> ".frame.width"
+  | Height -> ".frame.height"
+  | Color -> ".color"
+
+let string_of_type = function
+    Int -> "int"
+  | Bool -> "boolean"
+
+
+let string_of_color col =
+  let (r, g, b) = col in
+    "new Color(" ^ string_of_int r ^ ", " ^ string_of_int g ^ ", " ^ string_of_int b ^ ")"
 
 let string_of_stype = function
-  Rect -> "Shape.Type.RECTANGLE"
+    Rect -> "Shape.Type.RECTANGLE"
   | Ellipse -> "Shape.Type.ELLIPSE"
 
 let rec string_of_expr = function
     Literal(l) -> string_of_int l
   | Id(id) -> id
-  | Boolean(b) -> if b then 1 else 0
+(*   | Boolean(b) -> if b then 1 else 0 *)
   | Binop(e1, op, e2) ->
       string_of_expr e1 ^ " " ^ string_of_op op ^ " " ^ string_of_expr e2
-  | Assign(e1, e2) -> string_of_expr e1 ^ " = " ^ string_of_expr e2
+  | Vassign(e1, e2) -> e1 ^ " = " ^ string_of_expr e2
+  | Rgb(col) -> string_of_color col
+  | Get(id, prop) -> id ^ string_of_prop prop
+  | Set(id, prop, ex) -> id ^ string_of_prop prop ^ " = " ^ string_of_expr ex
 
 let string_of_vdecl = function 
-    Def(ty, id, ex) -> ty ^ " = " ^ string_of_expr ex
-
-let string_of_shape_decl shape_defn =
-  "Shape " ^ shape_defn.sname ^ " = new Shape(new Rectangle(" ^ shape_defn.x ^ ", " ^ shape_defn.y ^ ", " ^ shape_defn.w ^ ", " ^ shape_defn.h ^ "), " ^ (string_of_color shape_defn.r shape_defn.g shape_defn.g) ^ ", " ^ string_of_stype shape_defn.stype ^ ")"
+    Def(ty, id, ex) -> string_of_type ty ^ id ^ " = " ^ string_of_expr ex
+  | Shape(shape_defn) -> "Shape " ^ shape_defn.sname ^ " = new Shape(new Rectangle(" ^ string_of_expr shape_defn.x ^ ", " ^ string_of_expr shape_defn.y ^ ", " ^ string_of_expr shape_defn.w ^ ", " ^ string_of_expr shape_defn.h ^ "), " ^ string_of_color shape_defn.scolor ^ ", " ^ string_of_stype shape_defn.stype ^ ")"
 
 let rec string_of_stmt = function
-    Expr(ex) -> ex * " ; "
+    Expr(ex) -> string_of_expr ex ^ " ; "
   | Block(s) -> "{\n"^String.concat"" (List.map string_of_stmt s) ^ "}\n"
   | If(ex, s, Block([])) -> "if (" ^ string_of_expr ex ^")\n" ^string_of_stmt s
-  | If(ex, s1, s2) -> "if (" ^ string_of_expr ex ^")\n"^string_of_stmt s1 "else\n" ^ string_of_stmt s2
-  | While(ex, s) -> "while (" ^ string_of_expr ex ^")\n" string_of_stmt s 
+  | If(ex, s1, s2) -> "if (" ^ string_of_expr ex ^")\n"^string_of_stmt s1 ^ "else\n" ^ string_of_stmt s2
+  | While(ex, s) -> "while (" ^ string_of_expr ex ^")\n"^ string_of_stmt s 
   | Run(id) -> id^"();"
   (* Graphics library dependency *)
+ (*  
   | Draw(stmt) -> 
   | Put(id, ex1, ex2) ->
-  | Animator(id, dir, ex) ->
+  | Animator(id, dir, ex) -> 
+  | Draw()
+  | Vdecl() *)
 
