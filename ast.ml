@@ -53,7 +53,13 @@ type func_decl = {
   
     }
 
+
+
 type program = v_decl list * func_decl list
+
+type prog_funcs =
+     Var of v_decl
+   | Fun of func_decl
 
 
 let string_of_op = function
@@ -121,6 +127,13 @@ let rec string_of_stmt = function
   | Animator(id, dir, ex) -> id ^ string_of_direction dir ^ string_of_expr ex ^ ";"
   | Draw(block) -> "{\n"^String.concat"" (List.map string_of_stmt block) ^ "}\n"
   | Vdecl(var) -> string_of_vdecl var ^ ";"
+
+let string_of_func f_decl =
+
+let string_of_program = function
+        Vdecl(dec) -> string_of_vdecl(dec)
+     |  func_decl
+        
 
 let check_program program = 
   let (shape_defs, func_defs, drawloop) = 
