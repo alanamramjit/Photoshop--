@@ -38,14 +38,13 @@ type v_decl =
 type stmt =
          Block of stmt list
        | Expr of expr
-       | Return of expr
        | If of expr * stmt * stmt
        | While of expr * stmt
        | Run of string
        | Animator of string * animop * expr
        | Put of string * expr *  expr
        | Draw of stmt list
-       | Vdec of v_decl
+       | Vdecl of v_decl
       
 
 type func_decl = {
@@ -80,6 +79,12 @@ let string_of_type = function
     Int -> "int"
   | Bool -> "boolean"
 
+let string_of_direction = function
+    Left -> ".frame.x -="
+  | Right -> ".frame.x +="
+  | Up -> ".frame.y -="
+  | Down -> ".frame.y +="
+
 
 let string_of_color col =
   let (r, g, b) = col in
@@ -112,10 +117,8 @@ let rec string_of_stmt = function
   | While(ex, s) -> "while (" ^ string_of_expr ex ^")\n"^ string_of_stmt s 
   | Run(id) -> id^"();"
   (* Graphics library dependency *)
- (*  
-  | Draw(stmt) -> 
-  | Put(id, ex1, ex2) ->
-  | Animator(id, dir, ex) -> 
-  | Draw()
-  | Vdecl() *)
+  | Put(id, ex1, ex2) -> id ^ ".frame.x = " ^ string_of_expr ex1 ^ "; " ^ id ^ ".frame.y = " ^ string_of_expr ex2 ^ ";"
+  | Animator(id, dir, ex) -> id ^ string_of_direction dir ^ string_of_expr ex ^ ";"
+  | Draw(block) -> "{\n"^String.concat"" (List.map string_of_stmt block) ^ "}\n"
+  | Vdecl(var) -> string_of_vdecl var ^ ";"
 
