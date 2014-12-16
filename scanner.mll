@@ -27,19 +27,19 @@ rule token = parse
 	| ">=" 									{ GEQ }
 	| ".x" 									{ GETX }
 	| ".y" 									{ GETY }
-	| ".width" 							{ WIDTH }
-	| ".height" 						{ HEIGHT }
-	| ".color" 							{ GETCOLOR }
+	| ".width" 					        		{ WIDTH }
+	| ".height" 				                		{ HEIGHT }
+	| ".color" 						        	{ GETCOLOR }
 	| "at" 									{ AT }
-	| "block" 							{ BLOCK }
+	| "block" 						        	{ BLOCK }
 	| "blue" 								{ BLUE }
 	| "bool" 								{ BOOL }
 	| "down" 								{ DOWN }
-	| "drawloop" 						{ DRAWLOOP }
-	| "ellipse" 						{ ELLIPSE }
+	| "drawloop" 				        	        	{ DRAWLOOP }
+	| "ellipse" 					        	        { ELLIPSE }
 	| "else" 								{ ELSE }
-	| "false" 							{ FALSE }
-	| "green" 							{ GREEN }
+	| "false" 					        		{ FALSE }
+	| "green" 						        	{ GREEN }
 	| "if" 									{ IF }
 	| "int" 								{ INT }
 	| "left" 								{ LEFT }
@@ -48,17 +48,17 @@ rule token = parse
 	| "put" 								{ PUT }
 	| "rect" 								{ RECT }
 	| "red" 								{ RED }
-	| "right" 							{ RIGHT }
+	| "right" 			        				{ RIGHT }
 	| "run" 								{ RUN }
 	| "true" 								{ TRUE }
 	| "up" 									{ UP }
-	| "while" 							{ WHILE }
-	| identifier as lxm 		{ ID(lxm) } 
+	| "while" 			        				{ WHILE }
+	| identifier as lxm 	                                        	{ ID(lxm) } 
 	| eof 									{ EOF }
-	| digit+ as lxm 				{ LITERAL(int_of_string lxm) }
-	| _ as char 						{ raise (Failure("illegal character " ^ Char.escaped char)) }
+	| digit+ as lxm 			                        	{ LITERAL(int_of_string lxm) }
+	| _ as char 					                	{ raise (Failure("illegal character " ^ Char.escaped char)) }
 
 and comment = parse
-	'~' 										{ token lexbuf }
-	| _ 										{ comment lexbuf }
+	'~' 									{ token lexbuf }
+	| _ 									{ comment lexbuf }
 	| eof 									{ raise (Failure ("unclosed comment" )) }   

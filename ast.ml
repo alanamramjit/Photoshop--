@@ -16,6 +16,7 @@ type expr =
   | Get of string * sdesc
   | Set of string * sdesc * expr
   | Rgb of (color)
+  | Boolean of string
         
 type p_type = Int | Bool 
       
@@ -102,7 +103,10 @@ let string_of_stype = function
 let rec string_of_expr = function
     Literal(l) -> string_of_int l
   | Id(id) -> id
-(*   | Boolean(b) -> if b then 1 else 0 *)
+  | Boolean(b) -> b
+   
+
+        
   | Binop(e1, op, e2) ->
       string_of_expr e1 ^ " " ^ string_of_op op ^ " " ^ string_of_expr e2
   | Vassign(e1, e2) -> e1 ^ " = " ^ string_of_expr e2
@@ -111,11 +115,11 @@ let rec string_of_expr = function
   | Set(id, prop, ex) -> id ^ string_of_prop prop ^ " = " ^ string_of_expr ex
 
 let string_of_vdecl = function 
-    Def(ty, id, ex) -> string_of_type ty ^ id ^ " = " ^ string_of_expr ex
+    Def(ty, id, ex) -> string_of_type ty ^" " ^ id ^ " = " ^ string_of_expr ex ^ ";\n"
   | Shape(shape_defn) -> "Shape " ^ shape_defn.sname ^ " = new Shape(new Rectangle(" ^ string_of_expr shape_defn.x ^ ", " ^ string_of_expr shape_defn.y ^ ", " ^ string_of_expr shape_defn.w ^ ", " ^ string_of_expr shape_defn.h ^ "), " ^ string_of_color shape_defn.scolor ^ ", " ^ string_of_stype shape_defn.stype ^ ")"
 
 let rec string_of_stmt = function
-    Expr(ex) -> string_of_expr ex ^ " ; "
+    Expr(ex) -> string_of_expr ex ^";\n"
   | Block(s) -> "{\n"^String.concat"" (List.map string_of_stmt s) ^ "}\n"
   | If(ex, s, Block([])) -> "if (" ^ string_of_expr ex ^")\n" ^string_of_stmt s
   | If(ex, s1, s2) -> "if (" ^ string_of_expr ex ^")\n"^string_of_stmt s1 ^ "else\n" ^ string_of_stmt s2
@@ -140,7 +144,7 @@ let check_program program =
 *)
 
 let string_of_func f_decl =
-       "public void " ^ f_decl.fname ^ "{" ^ String.concat "\n" (List.map string_of_stmt f_decl.body) ^ "}"
+       "public void " ^ f_decl.fname ^ "{\n\t" ^ String.concat "\n\t" (List.map string_of_stmt f_decl.body) ^ "}"
 
 let program_string (gl, funs) =
-        String.concat "" (List.map string_of_vdecl gl) ^ String.concat "" (List.map string_of_func funs)
+        String.concat "\n" (List.map string_of_vdecl gl) ^ String.concat "\n" (List.map string_of_func funs) ^ "\n"

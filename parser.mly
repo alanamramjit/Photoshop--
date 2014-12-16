@@ -64,8 +64,8 @@ vdecl:
     )}
   | INT ID                    {Def(Int, $2, Literal(0) )}
   | BOOL ID                   {Def(Bool, $2, Literal(0) )}
-  | INT ID ASSIGN expr        {Def(Int, $2, $4)}
-  | BOOL ID ASSIGN boolval    {Def(Bool, $2, $4)}
+  | INT ID ASSIGN expr SEMICOLON       {Def(Int, $2, $4)}
+  | BOOL ID ASSIGN expr SEMICOLON   {Def(Bool, $2, $4)}
  
 stmt_list:
                       { [] }
@@ -84,16 +84,14 @@ stmt:
   | MOVE ID RIGHT expr SEMICOLON              { Animator ($2, Right, $4) }
   | MOVE ID UP expr SEMICOLON                 { Animator ($2, Up, $4) }
   | MOVE ID DOWN expr SEMICOLON               { Animator ($2, Down, $4) }
-  | vdecl SEMICOLON                           { Vdecl($1) }
+ | vdecl SEMICOLON                           { Vdecl($1) }
 
-
-boolval:
-    TRUE {Literal(1)}
-  | FALSE {Literal(0)}
 
 expr:
     LITERAL                   { Literal($1) }
   | ID                        { Id($1) }
+  | TRUE                      { Boolean("true")}
+  | FALSE                     { Boolean("false")} 
   | expr PLUS expr            { Binop($1, Add,   $3) }
   | expr MINUS expr           { Binop($1, Sub,   $3) }
   | expr TIMES expr           { Binop($1, Mult,  $3) }
@@ -106,7 +104,7 @@ expr:
   | expr GEQ expr             { Binop($1, Geq,   $3) }
   | ID ASSIGN expr            { Vassign($1, $3)}
   | LPAREN expr RPAREN        { $2 } 
-  | color                     { Rgb($1)}
+  | color                     {Rgb($1)}
   | ID GETX                   {Get($1, X)} 
   | ID GETY                   {Get ($1, Y)}
   | ID WIDTH                  {Get ($1, Width)}
@@ -117,3 +115,4 @@ expr:
   | ID WIDTH ASSIGN expr      {Set ($1, Width, $4)} 
   | ID HEIGHT ASSIGN expr     {Set ($1, Height, $4)}
   | ID GETCOLOR ASSIGN color  {Set ($1, Color, Rgb($4))}
+
