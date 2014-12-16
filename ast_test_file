@@ -1,0 +1,10 @@
+int a = 4;
+bool b = true;
+rect myrect = 10, 10, 10, 10, red;
+
+block myblock{
+   a + 4;
+   put myrect at 10, 15;
+
+  
+}

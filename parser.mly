@@ -50,7 +50,7 @@ shape:
   | ELLIPSE { Ellipse }
 
 vdecl:
-  shape ID ASSIGN expr COMMA expr COMMA expr COMMA expr COMMA color
+  shape ID ASSIGN expr COMMA expr COMMA expr COMMA expr COMMA color SEMICOLON
     { Shape(
       {
         stype = $1;
@@ -84,7 +84,7 @@ stmt:
   | MOVE ID RIGHT expr SEMICOLON              { Animator ($2, Right, $4) }
   | MOVE ID UP expr SEMICOLON                 { Animator ($2, Up, $4) }
   | MOVE ID DOWN expr SEMICOLON               { Animator ($2, Down, $4) }
- | vdecl SEMICOLON                           { Vdecl($1) }
+  | vdecl                                     { Vdecl($1) }
 
 
 expr:
