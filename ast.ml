@@ -44,6 +44,7 @@ type stmt =
   | Put of string * expr *  expr
   | Vdecl of v_decl
   | Print of string
+  | Background of color
 
 type f_decl = { 
   fname: string;
@@ -128,6 +129,7 @@ let rec string_of_stmt = function
   | Animator(id, dir, ex) -> id ^ string_of_direction dir ^ string_of_expr ex ^ ";"
   | Vdecl(var) -> string_of_vdecl var ^ ";"
   | Print(str) -> "System.out.println("^str^");"
+  | Background(color) -> "setBackground(" ^ string_of_color color ^ ");"
 
 (* Returns a string add statement for the given v_decl()->Shape *)
  let string_of_add = function

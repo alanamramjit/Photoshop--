@@ -35,6 +35,7 @@ rule token = parse
 	| ".height" 				            { HEIGHT }
 	| ".color" 						       	{ GETCOLOR }
 	| "at" 									{ AT }
+	| "background"							{ BACKGROUND }
 	| "block" 						        { BLOCK }
 	| "blue" 								{ BLUE }
 	| "bool" 								{ BOOL }
