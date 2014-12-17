@@ -3,7 +3,8 @@
 let letter = ['a'-'z' 'A' - 'Z']
 let digit = ['0'-'9']
 let identifier = (letter)(letter | digit)*
-
+let stringy = (letter | digit)*
+let ws = [' ''\t' '\r' '\n']
 
 rule token = parse
   	[' ' '\t' '\r' '\n' ] { token lexbuf }
@@ -19,7 +20,8 @@ rule token = parse
 	| '>' 									{ GTHAN }
 	| '!' 									{ NOT }
 	| '*' 									{ TIMES }
-	| '+'                                                                   { PLUS }
+	| '"'                                                                   { QUOTE }
+        | '+'                                                                   { PLUS }
         | '-'                                                                   { MINUS }
         | "==" 									{ EQ }
 	| "!=" 									{ NEQ }
@@ -45,12 +47,14 @@ rule token = parse
 	| "left" 								{ LEFT }
 	| "main" 								{ MAIN }
 	| "move" 								{ MOVE }
-	| "put" 								{ PUT }
+	| "print"                                                               { PRINT }
+        | "put" 								{ PUT }
 	| "rect" 								{ RECT }
 	| "red" 								{ RED }
 	| "right" 			        				{ RIGHT }
-	| "run" 								{ RUN }
-	| "true" 								{ TRUE }
+        | "run" 								{ RUN }
+	| '"'(letter | digit)+(letter | digit | ws)*'"' as str                  { STRING(str) }
+        | "true" 								{ TRUE }
 	| "up" 									{ UP }
 	| "while" 			        				{ WHILE }
 	| identifier as lxm 	                                        	{ ID(lxm) } 
@@ -62,3 +66,5 @@ and comment = parse
 	'~' 									{ token lexbuf }
 	| _ 									{ comment lexbuf }
 	| eof 									{ raise (Failure ("unclosed comment" )) }   
+
+

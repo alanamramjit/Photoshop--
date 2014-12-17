@@ -44,6 +44,7 @@ type stmt =
   | Animator of string * animop * expr
   | Put of string * expr *  expr
   | Vdecl of v_decl
+  | Print of string
 
 type f_decl =
          {
@@ -121,6 +122,7 @@ let rec string_of_stmt = function
   | Put(id, ex1, ex2) -> id ^ ".frame.x = " ^ string_of_expr ex1 ^ "; " ^ id ^ ".frame.y = " ^ string_of_expr ex2 ^ ";"
   | Animator(id, dir, ex) -> id ^ string_of_direction dir ^ string_of_expr ex ^ ";"
   | Vdecl(var) -> string_of_vdecl var ^ ";"
+  | Print(str) -> "System.out.println("^str^");"
 
  let string_of_add = function
   Shape(shape_defn) -> "shapes.add(" ^ shape_defn.sname ^ ");\n"

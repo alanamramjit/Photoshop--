@@ -4,9 +4,10 @@
 %token NOT TIMES NEQ LEQ GEQ AT BLOCK BLUE DOWN INT NOELSE EOF
 %token ELSE FALSE GREEN IF LEFT LOOP MAIN MOVE PUT ELLIPSE COMMA
 %token RED RIGHT RUN TRUE UP WHILE ASSIGN BOOL RECT DRAWLOOP DOT
-%token GETX GETY WIDTH HEIGHT GETCOLOR PLUS MINUS
+%token GETX GETY WIDTH HEIGHT GETCOLOR PLUS MINUS PRINT QUOTE
 %token <string> ID 
 %token <int> LITERAL 
+%token <string> STRING
 
 %nonassoc NOELSE
 %nonassoc ELSE
@@ -91,7 +92,7 @@ stmt:
   | MOVE ID UP expr SEMICOLON                 { Animator ($2, Up, $4) }
   | MOVE ID DOWN expr SEMICOLON               { Animator ($2, Down, $4) }
   | vdecl                                     { Vdecl($1) }
-
+  | PRINT STRING SEMICOLON                    { Print($2) }
 
 expr:
     LITERAL                   { Literal($1) }
