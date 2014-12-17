@@ -143,7 +143,7 @@ let check_program program =
 let string_of_func f_decl = "public void " ^ f_decl.fname ^ "() {\n\t" ^ String.concat "\n\t" (List.map string_of_stmt f_decl.body) ^ "\n}"
 
 let program_string (gl, funs) =
-  String.concat "" (List.map string_of_vdecl gl) ^"\n" ^ String.concat "\n" (List.map string_of_func funs) ^ "\n" 
+  String.concat "" (List.map string_of_vdecl (List.rev gl)) ^"\n" ^ String.concat "\n" (List.map string_of_func (List.rev funs)) ^ "\n" 
 
 let program_string_split (gl, funs) = 
-  (String.concat "" (List.map string_of_vdecl gl), String.concat "" (List.map string_of_add gl), String.concat "\n" (List.map string_of_func funs) ^ "\n")
+  (String.concat "" (List.map string_of_vdecl (List.rev gl)), String.concat "" (List.map string_of_add (List.rev gl)), String.concat "\n" (List.map string_of_func (List.rev funs)) ^ "\n")
