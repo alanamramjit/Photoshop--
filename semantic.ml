@@ -1,5 +1,19 @@
 open Ast
 
+module TypeMap = Map.Make
+( struct
+	type t = string
+	let compare x y = Pervasives.compare x y
+end )
+
+let type_map = ref TypeMap.empty
+
+let print_map_entry id typ = 
+	print_string(id ^ " = " ^ typ)
+
+let print_map = 
+	TypeMap.iter print_map_entry !type_map
+
 (* Returns a string representation of the given binary operation *)
 let string_of_op = function
     Add -> "+"
@@ -68,7 +82,13 @@ let rec string_of_expr = function
 
 (* Returns a string for the given variable declaration *)
 let string_of_vdecl = function 
-    Def(ty, id, ex) -> string_of_type ty ^" " ^ id ^ " = " ^ string_of_expr ex ^ ";\n"
+    Def(ty, id, ex) -> if TypeMap.mem id !type_map
+    						then raise(Failure("Redeclaration of variable named " ^ id))
+    					else
+    						type_map := TypeMap.add id (string_of_type ty) !type_map;
+    						(* print_string("Printing Map:");
+    						print_map; *)
+    						string_of_type ty ^" " ^ id ^ " = " ^ string_of_expr ex ^ ";\n"
   | Shape(shape_defn) -> "Shape " ^ shape_defn.sname ^ " = new Shape(new Rectangle(" ^ string_of_expr shape_defn.x ^ ", " ^ string_of_expr shape_defn.y ^ ", " ^ string_of_expr shape_defn.w ^ ", " ^ string_of_expr shape_defn.h ^ "), " ^ string_of_color shape_defn.scolor ^ ", " ^ string_of_stype shape_defn.stype ^ ");\n"
 
 (* Returns a string for the given statement *)
