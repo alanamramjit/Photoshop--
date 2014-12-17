@@ -1,0 +1,81 @@
+ellipse e1 = 350, 50,20, 20, red;
+ellipse e2 = 650,350, 20, 20, green;
+ellipse e3 = 350, 650, 20, 20, blue;
+ellipse e4 = 50, 350,20, 20, (255,255,0);
+
+int count = 0;
+
+block moveE1 {
+	if(count < 300) {
+		move e1 down 1;
+		move e1 right 1;
+	} else if (count < 600) {
+		move e1 down 1;
+		move e1 left 1;
+	} else if (count < 900) {
+		move e1 up 1;
+		move e1 left 1;
+	} else if (count < 1200) {
+		move e1 up 1;
+		move e1 right 1;
+	}
+}
+
+block moveE2 {
+	if(count < 300) {
+		move e2 down 1;
+		move e2 left 1;
+	} else if (count < 600) {
+		move e2 up 1;
+		move e2 left 1;
+	} else if (count < 900) {
+		move e2 up 1;
+		move e2 right 1;
+	} else if (count < 1200) {
+		move e2 down 1;
+		move e2 right 1;
+	}
+}
+
+block moveE3 {
+	if(count < 300) {
+		move e3 up 1;
+		move e3 left 1;
+	} else if (count < 600) {
+		move e3 up 1;
+		move e3 right 1;
+	} else if (count < 900) {
+		move e3 down 1;
+		move e3 right 1;
+	} else if (count < 1200) {
+		move e3 down 1;
+		move e3 left 1;
+	}
+}
+
+block moveE4 {
+	if(count < 300) {
+		move e4 up 1;
+		move e4 right 1;
+	} else if (count < 600) {
+	move e4 down 1;
+		move e4 right 1;
+	} else if (count < 900) {
+		move e4 down 1;
+		move e4 left 1;
+	} else if (count < 1200) {
+		move e4 up 1;
+		move e4 left 1;
+	}
+}
+
+drawloop {
+	if(count == 1200) {
+		count = 0;
+	}
+	run moveE1;
+	run moveE2;
+	run moveE3;
+	run moveE4;
+	count = count + 1;
+}
