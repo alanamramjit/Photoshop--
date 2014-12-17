@@ -1,6 +1,6 @@
 ~ PHYSICS VARIABLES~
 int height = 200;
-int minY = 250;
+int minY = 50;
 int maxY = minY + height;
 int minX = 100;
 int maxX = 100;
