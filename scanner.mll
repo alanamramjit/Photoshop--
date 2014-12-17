@@ -7,7 +7,7 @@ let stringy = (letter | digit)*
 let ws = [' ''\t' '\r' '\n']
 
 rule token = parse
-  	[' ' '\t' '\r' '\n' ] { token lexbuf }
+  	[' ' '\t' '\r' '\n' ] 					{ token lexbuf }
 	| '~' 									{ comment lexbuf }
 	| ';' 									{ SEMICOLON }
 	| '{' 									{ LBRACE }
@@ -20,10 +20,9 @@ rule token = parse
 	| '>' 									{ GTHAN }
 	| '!' 									{ NOT }
 	| '*' 									{ TIMES}
-        | '+'                                                                   { PLUS }
-        | '-'                                                                   { MINUS }
-        | "==" 									{ EQ }
-
+    | '+'                                   { PLUS }
+    | '-'                                   { MINUS }
+    | "==" 									{ EQ }
 	| '+'                                   { PLUS }
     | '-'                                   { MINUS }
     | "==" 									{ EQ }
@@ -50,15 +49,14 @@ rule token = parse
 	| "left" 								{ LEFT }
 	| "main" 								{ MAIN }
 	| "move" 								{ MOVE }
-	| "print"                                                               { PRINT }
-        | "put" 								{ PUT }
+	| "print"                               { PRINT }
+    | "put" 								{ PUT }
 	| "rect" 								{ RECT }
 	| "red" 								{ RED }
-
-	| "right" 			        				{ RIGHT }
-        | "run" 								{ RUN }
+	| "right" 			        			{ RIGHT }
+    | "run" 								{ RUN }
 	| '"'(letter | digit)+(letter | digit | ws)*'"' as str                  { STRING(str) }
-        | "true" 								{ TRUE }
+    | "true" 								{ TRUE }
 	| "right" 			        			{ RIGHT }
 	| "run" 								{ RUN }
 	| "true" 								{ TRUE }
@@ -66,7 +64,7 @@ rule token = parse
 	| "while" 			        			{ WHILE }
 	| identifier as lxm 	                { ID(lxm) } 
 	| eof 									{ EOF }
-	| '-'?digit+ as lxm 			            { LITERAL(int_of_string lxm) }
+	| '-'?digit+ as lxm 			        { LITERAL(int_of_string lxm) }
 	| _ as char 					        { raise (Failure("illegal character " ^ Char.escaped char)) }
 
 and comment = parse
