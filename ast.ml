@@ -30,7 +30,6 @@ type shape =   {
   scolor: color;
 }
 
-
 type v_decl =
     Shape of shape
   | Def of p_type * string * expr
@@ -44,23 +43,20 @@ type stmt =
   | Run of string
   | Animator of string * animop * expr
   | Put of string * expr *  expr
-  | Draw of stmt list
   | Vdecl of v_decl
-      
 
-type func_decl = {
-  fname: string; (* name of function *)
-  body: stmt list;
-}
+type f_decl =
+         {
+                fname: string; (* name of function *)
+                body: stmt list;
+         }
 
 
-
-type program = v_decl list * func_decl list
+type program = v_decl list * f_decl list
 
 type prog_funcs =
      Var of v_decl
-   | Fun of func_decl
-
+   | Fun of f_decl
 
 let string_of_op = function
     Add -> "+"
@@ -124,9 +120,9 @@ let rec string_of_stmt = function
   | Run(id) -> id^"();"
   | Put(id, ex1, ex2) -> id ^ ".frame.x = " ^ string_of_expr ex1 ^ "; " ^ id ^ ".frame.y = " ^ string_of_expr ex2 ^ ";"
   | Animator(id, dir, ex) -> id ^ string_of_direction dir ^ string_of_expr ex ^ ";"
-  | Draw(block) -> "{\n"^String.concat"" (List.map string_of_stmt block) ^ "}\n"
   | Vdecl(var) -> string_of_vdecl var ^ ";"
 
+ 
 (*
 let check_program program = 
   let (shape_defs, func_defs, drawloop) = 
@@ -140,8 +136,7 @@ let check_program program =
   in (shape_defs, func_defs, drawloop)
 *)
 
-let string_of_func f_decl =
-       "public void " ^ f_decl.fname ^ "{\n\t" ^ String.concat "\n\t" (List.map string_of_stmt f_decl.body) ^ "\n}"
+let string_of_func f_decl = "public void " ^ f_decl.fname ^ "{\n\t" ^ String.concat "\n\t" (List.map string_of_stmt f_decl.body) ^ "\n}"
 
 let program_string (gl, funs) =
         String.concat "" (List.map string_of_vdecl gl) ^"\n" ^ String.concat "\n" (List.map string_of_func funs) ^ "\n" 

@@ -25,19 +25,26 @@
 %%
 
 program:
-                    {[], []}        
-  | program vdecl   { ($2 :: fst $1), snd $1 }
-  | program fdecl   { fst $1, ($2 :: snd $1) }
+                     {[], []}        
+  | program vdecl    { $2::fst $1, snd $1  }
+  | program fdecl    { fst $1, $2 :: snd $1}
+ 
 
 
 fdecl:
-  BLOCK ID LBRACE stmt_list RBRACE
-  {
-    {    
-      fname = $2;
-      body = List.rev $4;
-    }
-  }
+          BLOCK ID LBRACE stmt_list RBRACE
+         {
+             {    
+                fname = $2;
+                body = List.rev $4;
+              }
+          }
+  
+      | DRAWLOOP LBRACE stmt_list RBRACE{ 
+                                         { fname = "drawloop";
+                                           body = List.rev $3;
+                                           }
+                                         }
 
 color:
     RED           { (255, 0, 0) }
@@ -78,7 +85,6 @@ stmt:
   | IF LPAREN expr RPAREN stmt ELSE stmt      { If($3, $5, $7) }
   | WHILE LPAREN expr RPAREN stmt             { While ($3, $5) }
   | RUN ID SEMICOLON                          { Run($2)}
-  | DRAWLOOP LBRACE stmt_list RBRACE          { Draw(List.rev $3) }
   | PUT ID AT expr COMMA expr SEMICOLON       { Put($2, $4, $6) }
   | MOVE ID LEFT expr SEMICOLON               { Animator ($2, Left, $4) }
   | MOVE ID RIGHT expr SEMICOLON              { Animator ($2, Right, $4) }
