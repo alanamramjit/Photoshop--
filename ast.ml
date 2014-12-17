@@ -125,7 +125,7 @@ let rec string_of_stmt = function
   | If(ex, s1, s2) -> "if (" ^ string_of_expr ex ^")\n"^string_of_stmt s1 ^ "else\n" ^ string_of_stmt s2
   | While(ex, s) -> "while (" ^ string_of_expr ex ^")\n"^ string_of_stmt s 
   | Run(id) -> id^"();"
-  | Put(id, ex1, ex2) -> id ^ ".frame.x = " ^ string_of_expr ex1 ^ "; " ^ id ^ ".frame.y = " ^ string_of_expr ex2 ^ ";"
+  | Put(id, ex1, ex2) -> id ^ ".frame.x = " ^ string_of_expr ex2 ^ "; " ^ id ^ ".frame.y = " ^ string_of_expr ex1 ^ ";"
   | Animator(id, dir, ex) -> id ^ string_of_direction dir ^ string_of_expr ex ^ ";"
   | Vdecl(var) -> string_of_vdecl var ^ ";"
   | Print(str) -> "System.out.println("^str^");"
