@@ -66,7 +66,7 @@ rule token = parse
 	| "while" 			        			{ WHILE }
 	| identifier as lxm 	                { ID(lxm) } 
 	| eof 									{ EOF }
-	| digit+ as lxm 			            { LITERAL(int_of_string lxm) }
+	| '-'?digit+ as lxm 			            { LITERAL(int_of_string lxm) }
 	| _ as char 					        { raise (Failure("illegal character " ^ Char.escaped char)) }
 
 and comment = parse
