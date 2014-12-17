@@ -3,8 +3,9 @@ bool b = true;
 rect myrect = 10, 10, 10, 10, red;
 
 block myblock{
-   a + 4;
-   put myrect at 10, 15;
+   move myrect right 1;
+}
 
-  
+drawloop {
+	run myblock;
 }
