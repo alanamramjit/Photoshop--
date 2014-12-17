@@ -97,6 +97,7 @@ stmt:
 
 expr:
     LITERAL                   { Literal($1) }
+  | MINUS LITERAL             { Literal(-1 * 2) }
   | ID                        { Id($1) }
   | TRUE                      { Boolean("true")}
   | FALSE                     { Boolean("false")} 
