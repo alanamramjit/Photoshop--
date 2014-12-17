@@ -29,6 +29,7 @@ rule token = parse
 	| "!=" 									{ NEQ }
 	| "<=" 									{ LEQ }
 	| ">=" 									{ GEQ }
+	| ".angle"								{ GETANGLE}
 	| ".x" 									{ GETX }
 	| ".y" 									{ GETY }
 	| ".width" 					       		{ WIDTH }
@@ -55,6 +56,7 @@ rule token = parse
 	| "rect" 								{ RECT }
 	| "red" 								{ RED }
 	| "right" 			        			{ RIGHT }
+	| "rotate"								{ ROTATE }
     | "run" 								{ RUN }
 	| '"'(letter | digit)+(letter | digit | ws)*'"' as str                  { STRING(str) }
     | "true" 								{ TRUE }

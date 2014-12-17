@@ -12,6 +12,7 @@ let java_code (s_decls, add, funs) =
 	"import java.awt.Rectangle;\n" ^
 	"import java.awt.geom.Ellipse2D;\n" ^
 	"import java.awt.geom.Rectangle2D;\n" ^
+	"import java.awt.geom.AffineTransform;\n" ^
 	"import java.util.ArrayList;\n" ^
 
 	"import javax.swing.JFrame;\n" ^
@@ -90,6 +91,7 @@ let java_code (s_decls, add, funs) =
 	"		Graphics2D g2 = (Graphics2D) g;\n" ^
 			
 	"		for (Shape shape : shapes) {\n" ^
+	"			AffineTransform old = g2.getTransform(); shape.angle %= 360; g2.rotate(Math.toRadians(shape.angle)); g2.setTransform(old); \n" ^
 	"			g2.setPaint(shape.color);\n" ^
 				
 	"			Rectangle frame = shape.frame;\n" ^
@@ -111,11 +113,13 @@ let java_code (s_decls, add, funs) =
 	"	public Rectangle frame;\n" ^
 	"	public Color color;\n" ^
 	"	public Type type;\n" ^
+	"	public int angle;\n" ^
 		
 	"	public Shape(Rectangle frame, Color color, Type type) {\n" ^
 	"		this.frame = frame;\n" ^
 	"		this.color = color;\n" ^
 	"		this.type = type;\n" ^
+	"		this.angle = 0;\n" ^
 	"	}\n" ^
 	"}\n"  
 

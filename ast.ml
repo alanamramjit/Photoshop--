@@ -1,10 +1,10 @@
 type op = Add | Sub | Mult | Div | Equals | Neq | Less | Leq | Geq | Greater
 
-type animop = Left | Right | Up | Down
+type animop = Left | Right | Up | Down | Degoffset
 
 type s_type = Rect | Ellipse
 
-type sdesc = Width | Height | X | Y | Color
+type sdesc = Width | Height | X | Y | Color | Angle
 
 type color = int * int * int
 
@@ -77,6 +77,7 @@ let string_of_prop = function
   | Width -> ".frame.width"
   | Height -> ".frame.height"
   | Color -> ".color"
+  | Angle -> ".angle"
 
 (* Returns a string for the given basic type *)
 let string_of_type = function
@@ -89,6 +90,7 @@ let string_of_direction = function
   | Right -> ".frame.x +="
   | Up -> ".frame.y -="
   | Down -> ".frame.y +="
+  | Degoffset -> ".angle +="
 
 (* Returns a string for the given color *)
 let string_of_color col =

@@ -4,7 +4,8 @@
 %token NOT TIMES NEQ LEQ GEQ AT BLOCK BLUE DOWN INT NOELSE EOF
 %token ELSE FALSE GREEN IF LEFT LOOP MAIN MOVE PUT ELLIPSE COMMA
 %token RED RIGHT RUN TRUE UP WHILE ASSIGN BOOL RECT DRAWLOOP DOT
-%token GETX GETY WIDTH HEIGHT GETCOLOR PLUS MINUS PRINT QUOTE BACKGROUND
+%token GETX GETY WIDTH HEIGHT GETCOLOR GETANGLE PLUS MINUS PRINT QUOTE
+%token BACKGROUND ROTATE
 %token <string> ID 
 %token <int> LITERAL 
 %token <string> STRING
@@ -80,17 +81,18 @@ stmt_list:
   | stmt_list stmt    { $2 :: $1 }
 
 stmt:
-    expr SEMICOLON                            { Expr($1)}
+    expr SEMICOLON                            { Expr($1) }
   | LBRACE stmt_list RBRACE                   { Block(List.rev $2) }
-  | IF LPAREN expr RPAREN stmt %prec NOELSE   { If ($3, $5, Block([])) }
+  | IF LPAREN expr RPAREN stmt %prec NOELSE   { If($3, $5, Block([])) }
   | IF LPAREN expr RPAREN stmt ELSE stmt      { If($3, $5, $7) }
-  | WHILE LPAREN expr RPAREN stmt             { While ($3, $5) }
-  | RUN ID SEMICOLON                          { Run($2)}
+  | WHILE LPAREN expr RPAREN stmt             { While($3, $5) }
+  | RUN ID SEMICOLON                          { Run($2) }
   | PUT ID AT expr COMMA expr SEMICOLON       { Put($2, $4, $6) }
-  | MOVE ID LEFT expr SEMICOLON               { Animator ($2, Left, $4) }
-  | MOVE ID RIGHT expr SEMICOLON              { Animator ($2, Right, $4) }
-  | MOVE ID UP expr SEMICOLON                 { Animator ($2, Up, $4) }
-  | MOVE ID DOWN expr SEMICOLON               { Animator ($2, Down, $4) }
+  | MOVE ID LEFT expr SEMICOLON               { Animator($2, Left, $4) }
+  | MOVE ID RIGHT expr SEMICOLON              { Animator($2, Right, $4) }
+  | MOVE ID UP expr SEMICOLON                 { Animator($2, Up, $4) }
+  | MOVE ID DOWN expr SEMICOLON               { Animator($2, Down, $4) }
+  | ROTATE ID expr SEMICOLON                  { Animator($2, Degoffset, $3) }
   | vdecl                                     { Vdecl($1) }
   | PRINT STRING SEMICOLON                    { Print($2) }
   | BACKGROUND color SEMICOLON                { Background($2) }
@@ -113,15 +115,17 @@ expr:
   | expr GEQ expr             { Binop($1, Geq,   $3) }
   | ID ASSIGN expr            { Vassign($1, $3)}
   | LPAREN expr RPAREN        { $2 } 
-  | color                     {Rgb($1)}
-  | ID GETX                   {Get($1, X)} 
-  | ID GETY                   {Get ($1, Y)}
-  | ID WIDTH                  {Get ($1, Width)}
-  | ID HEIGHT                 {Get ($1, Height)}
-  | ID GETCOLOR               {Get ($1, Color)}
-  | ID GETX ASSIGN expr       {Set ($1, X, $4)}
-  | ID GETY ASSIGN expr       {Set ($1, Y, $4)}
-  | ID WIDTH ASSIGN expr      {Set ($1, Width, $4)} 
-  | ID HEIGHT ASSIGN expr     {Set ($1, Height, $4)}
-  | ID GETCOLOR ASSIGN color  {Set ($1, Color, Rgb($4))}
+  | color                     { Rgb($1) }
+  | ID GETX                   { Get($1, X) } 
+  | ID GETY                   { Get($1, Y) }
+  | ID WIDTH                  { Get($1, Width) }
+  | ID HEIGHT                 { Get($1, Height) }
+  | ID GETCOLOR               { Get($1, Color) }
+  | ID GETANGLE               { Get($1, Angle) }
+  | ID GETX ASSIGN expr       { Set($1, X, $4) }
+  | ID GETY ASSIGN expr       { Set($1, Y, $4) }
+  | ID WIDTH ASSIGN expr      { Set($1, Width, $4) }  
+  | ID HEIGHT ASSIGN expr     { Set($1, Height, $4) }
+  | ID GETCOLOR ASSIGN color  { Set($1, Color, Rgb($4)) }
+  | ID GETANGLE ASSIGN expr   { Set($1, Angle, $4) }
 
