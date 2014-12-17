@@ -1,0 +1,7 @@
+~This is a comment~
+
+ellipse e1 = 10,10,10,10,red;
+
+drawloop {
+	~There is nothing in this loop~
+}
