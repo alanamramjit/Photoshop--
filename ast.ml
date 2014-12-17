@@ -122,7 +122,9 @@ let rec string_of_stmt = function
   | Animator(id, dir, ex) -> id ^ string_of_direction dir ^ string_of_expr ex ^ ";"
   | Vdecl(var) -> string_of_vdecl var ^ ";"
 
- 
+ let string_of_add = function
+  Shape(shape_defn) -> "shapes.add(" ^ shape_defn.sname ^ ");\n"
+  | Def(_, _, _) -> ""
 (*
 let check_program program = 
   let (shape_defs, func_defs, drawloop) = 
@@ -142,4 +144,4 @@ let program_string (gl, funs) =
   String.concat "" (List.map string_of_vdecl gl) ^"\n" ^ String.concat "\n" (List.map string_of_func funs) ^ "\n" 
 
 let program_string_split (gl, funs) = 
-  (String.concat "" (List.map string_of_vdecl gl), String.concat "\n" (List.map string_of_func funs) ^ "\n")
+  (String.concat "" (List.map string_of_vdecl gl), String.concat "" (List.map string_of_add gl), String.concat "\n" (List.map string_of_func funs) ^ "\n")

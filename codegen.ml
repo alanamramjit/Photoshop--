@@ -3,7 +3,7 @@ open Printf
 let file_name = "PSMMAnimator"
 let window_size = 700
 
-let java_code (gl, funs) =
+let java_code (gl, add, funs) =
 "import java.awt.Color;\n" ^
 "import java.awt.Dimension;\n" ^
 "import java.awt.Graphics;\n" ^
@@ -52,11 +52,7 @@ gl ^
 "		shapes = new ArrayList<Shape>();\n" ^
 		
 "		// Create and add shapes\n" ^
-"		//Shape s1 = new Shape(new Rectangle(50, 100, 300, 250), new Color(200, 100, 10), Shape.Type.RECTANGLE);\n" ^
-"		//Shape s2 = new Shape(new Rectangle(550, 500, 100, 150), new Color(119, 37, 231), Shape.Type.ELLIPSE);\n" ^
-"		//shapes.add(s1);\n" ^
-"		//shapes.add(s2);\n" ^
-
+add ^
 (* Create and add shapes *)
 
 
