@@ -1,0 +1,62 @@
+int height = 200;
+int minY = 250;
+int maxY = minY + height;
+int minX = 100;
+int maxX = 100;
+
+int velocityY = 1;
+
+rect hLeft = minX, minY, 30, height, red;
+rect hMiddle = minX, minY + 85, 90, 30, red;
+rect hRight = minX + 60, minY, 30, height, red;
+
+rect eLeft = minX + 100, minY, 30, height, (255, 127, 0);
+rect eTop = minX + 100, minY, 90, 30, (255, 127, 0);
+rect eMiddle = minX + 100, minY + 85, 90, 30, (255, 127, 0);
+rect eBottom = minX + 100, maxY - 30, 90, 30, (255, 127, 0);
+
+rect firstLLeft = minX + 200, minY, 30, height, (255, 255, 0);
+rect firstLBottom = minX + 200, maxY - 30, 90, 30, (255, 255, 0);
+
+rect secondLLeft = minX + 300, minY, 30, height, green;
+rect secondLBottom = minX + 300, maxY - 30, 90, 30, green;
+
+ellipse oOuter = minX + 400, minY, 90, height, blue;
+ellipse oInner = minX + 430, minY + 30, 30, height - 60, (236, 236, 236);
+
+block animate{
+	hLeft.y = hLeft.y + velocityY;
+	hMiddle.y = hMiddle.y + velocityY;
+	hRight.y = hRight.y + velocityY;
+
+	eLeft.y = eLeft.y + velocityY;
+	eTop.y = eTop.y + velocityY;
+	eMiddle.y = eMiddle.y + velocityY;
+	eBottom.y = eBottom.y + velocityY;
+
+	firstLLeft.y = firstLLeft.y + velocityY;
+	firstLBottom.y = firstLBottom.y + velocityY;
+
+	secondLLeft.y = secondLLeft.y + velocityY;
+	secondLBottom.y = secondLBottom.y + velocityY;
+
+	oOuter.y = oOuter.y + velocityY;
+	oInner.y = oInner.y + velocityY;
+}
+
+drawloop {
+	velocityY = velocityY + 1;
+
+	if (hLeft.y + hLeft.height >= 700) {
+		if (velocityY > 30) {
+			velocityY = 30;
+		}
+		velocityY = velocityY - 2 * velocityY;
+	}
+
+	if (hLeft.y < 0) {
+		velocityY = 1;
+	}
+
+	run animate;
+}
