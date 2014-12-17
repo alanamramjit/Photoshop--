@@ -136,7 +136,10 @@ let check_program program =
   in (shape_defs, func_defs, drawloop)
 *)
 
-let string_of_func f_decl = "public void " ^ f_decl.fname ^ "{\n\t" ^ String.concat "\n\t" (List.map string_of_stmt f_decl.body) ^ "\n}"
+let string_of_func f_decl = "public void " ^ f_decl.fname ^ "() {\n\t" ^ String.concat "\n\t" (List.map string_of_stmt f_decl.body) ^ "\n}"
 
 let program_string (gl, funs) =
-        String.concat "" (List.map string_of_vdecl gl) ^"\n" ^ String.concat "\n" (List.map string_of_func funs) ^ "\n" 
+  String.concat "" (List.map string_of_vdecl gl) ^"\n" ^ String.concat "\n" (List.map string_of_func funs) ^ "\n" 
+
+let program_string_split (gl, funs) = 
+  (String.concat "" (List.map string_of_vdecl gl), String.concat "\n" (List.map string_of_func funs) ^ "\n")
