@@ -20,7 +20,7 @@ type expr =
         
 type p_type = Int | Bool 
       
-type shape =   {
+type shape = {
   stype: s_type;
   sname: string;
   x: expr;
@@ -34,7 +34,6 @@ type v_decl =
     Shape of shape
   | Def of p_type * string * expr
         
-
 type stmt =
     Block of stmt list
   | Expr of expr
@@ -46,12 +45,10 @@ type stmt =
   | Vdecl of v_decl
   | Print of string
 
-type f_decl =
-         {
-                fname: string; (* name of function *)
-                body: stmt list;
-         }
-
+type f_decl = { 
+  fname: string;
+  body: stmt list;
+}
 
 type program = v_decl list * f_decl list
 
@@ -59,6 +56,7 @@ type prog_funcs =
      Var of v_decl
    | Fun of f_decl
 
+(* Returns a string representation of the given binary operation *)
 let string_of_op = function
     Add -> "+"
   | Sub -> "-"
@@ -71,6 +69,7 @@ let string_of_op = function
   | Greater -> ">"
   | Geq -> ">="
 
+(* Returns a string ID suffix for the given property *)
 let string_of_prop = function
     X -> ".frame.x"
   | Y -> ".frame.y"
@@ -78,25 +77,29 @@ let string_of_prop = function
   | Height -> ".frame.height"
   | Color -> ".color"
 
+(* Returns a string for the given basic type *)
 let string_of_type = function
     Int -> "int"
   | Bool -> "boolean"
 
+(* Returns a string ID suffix for the given move direction *)
 let string_of_direction = function
     Left -> ".frame.x -="
   | Right -> ".frame.x +="
   | Up -> ".frame.y -="
   | Down -> ".frame.y +="
 
-
+(* Returns a string for the given color *)
 let string_of_color col =
   let (r, g, b) = col in
     "new Color(" ^ string_of_int r ^ ", " ^ string_of_int g ^ ", " ^ string_of_int b ^ ")"
 
+(* Returns a string identifier for the given shape type *)
 let string_of_stype = function
     Rect -> "Shape.Type.RECTANGLE"
   | Ellipse -> "Shape.Type.ELLIPSE"
 
+(* Returns a string for the given expression *)
 let rec string_of_expr = function
     Literal(l) -> string_of_int l
   | Id(id) -> id
@@ -108,10 +111,12 @@ let rec string_of_expr = function
   | Get(id, prop) -> id ^ string_of_prop prop
   | Set(id, prop, ex) -> id ^ string_of_prop prop ^ " = " ^ string_of_expr ex
 
+(* Returns a string for the given variable declaration *)
 let string_of_vdecl = function 
     Def(ty, id, ex) -> string_of_type ty ^" " ^ id ^ " = " ^ string_of_expr ex ^ ";\n"
   | Shape(shape_defn) -> "Shape " ^ shape_defn.sname ^ " = new Shape(new Rectangle(" ^ string_of_expr shape_defn.x ^ ", " ^ string_of_expr shape_defn.y ^ ", " ^ string_of_expr shape_defn.w ^ ", " ^ string_of_expr shape_defn.h ^ "), " ^ string_of_color shape_defn.scolor ^ ", " ^ string_of_stype shape_defn.stype ^ ");\n"
 
+(* Returns a string for the given statement *)
 let rec string_of_stmt = function
     Expr(ex) -> string_of_expr ex ^";"
   | Block(s) -> "{\n"^String.concat "\n" (List.map string_of_stmt s) ^ "}\n"
@@ -124,26 +129,18 @@ let rec string_of_stmt = function
   | Vdecl(var) -> string_of_vdecl var ^ ";"
   | Print(str) -> "System.out.println("^str^");"
 
+(* Returns a string add statement for the given v_decl()->Shape *)
  let string_of_add = function
   Shape(shape_defn) -> "shapes.add(" ^ shape_defn.sname ^ ");\n"
   | Def(_, _, _) -> ""
-(*
-let check_program program = 
-  let (shape_defs, func_defs, drawloop) = 
-    List.fold_left (
-      fun (shape_defs, func_defs, drawloop) prog ->
-        (match prog with
-          Fun(func) -> ("", "", "") (* let func_defs = func_defs ^ string_of_fdecl func in (shape_defs, func_defs, drawloop) *)
-          | Var(var) -> let shape_defs = shape_defs ^ string_of_vdecl var ^ ";" in (shape_defs, func_defs, drawloop)
-        )
-    ) ("", "", "") program
-  in (shape_defs, func_defs, drawloop)
-*)
 
+(* Returns a string for the given function declaration *)
 let string_of_func f_decl = "public void " ^ f_decl.fname ^ "() {\n\t" ^ String.concat "\n\t" (List.map string_of_stmt f_decl.body) ^ "\n}"
 
+(* Returns a single string with the program's contents *)
 let program_string (gl, funs) =
   String.concat "" (List.map string_of_vdecl (List.rev gl)) ^"\n" ^ String.concat "\n" (List.map string_of_func (List.rev funs)) ^ "\n" 
 
+(* Returns a tuple of strings in the form (v_decls, add_stmts, f_decls) *)
 let program_string_split (gl, funs) = 
   (String.concat "" (List.map string_of_vdecl (List.rev gl)), String.concat "" (List.map string_of_add (List.rev gl)), String.concat "\n" (List.map string_of_func (List.rev funs)) ^ "\n")
