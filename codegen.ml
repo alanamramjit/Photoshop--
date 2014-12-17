@@ -1,135 +1,130 @@
 open Printf
 
 let file_name = "PSMMAnimator"
-let window_size = 700     
+let window_size = 700
 
-let translate =
-        let oc = open_out (file_name ^ ".java") in 
-               fprintf oc              
-"
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
+let java_code (gl, funs) =
+"import java.awt.Color;\n" ^
+"import java.awt.Dimension;\n" ^
+"import java.awt.Graphics;\n" ^
+"import java.awt.Graphics2D;\n" ^
+"import java.awt.Rectangle;\n" ^
+"import java.awt.geom.Ellipse2D;\n" ^
+"import java.awt.geom.Rectangle2D;\n" ^
+"import java.util.ArrayList;\n" ^
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
+"import javax.swing.JFrame;\n" ^
+"import javax.swing.JPanel;\n" ^
+"import javax.swing.SwingUtilities;\n" ^
 
 
-public class " ^ file_name ^ " {
+"public class " ^ file_name ^ " {\n" ^
 	
-	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				createAndDisplayGUI();
-			}
-		});
-	}
+"	public static void main(String[] args) {\n" ^
+"		SwingUtilities.invokeLater(new Runnable() {\n" ^
+"			public void run() {\n" ^
+"				createAndDisplayGUI();\n" ^
+"			}\n" ^
+"		});\n" ^
+"	}\n" ^
 	
-	public static void createAndDisplayGUI() {
-		JFrame frame = new JFrame(\"My Animation Coded in Photoshop--\");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+"	public static void createAndDisplayGUI() {\n" ^
+"		JFrame frame = new JFrame(\"My Animation Coded in Photoshop--\");\n" ^
+"		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);\n" ^
 		
-		PSMMAnimatedPanel panel = new PSMMAnimatedPanel();
-		frame.add(panel);
-		frame.pack();
-		frame.setVisible(true);
+"		PSMMAnimatedPanel panel = new PSMMAnimatedPanel();\n" ^
+"		frame.add(panel);\n" ^
+"		frame.pack();\n" ^
+"		frame.setVisible(true);\n" ^
 		
-		Thread t = new Thread(panel);
-		t.start();
-	}
-}
+"		Thread t = new Thread(panel);\n" ^
+"		t.start();\n" ^
+"	}\n" ^
+"}\n" ^
 
-class PSMMAnimatedPanel extends JPanel implements Runnable {
-	private static final long serialVersionUID = 1L;
-	public ArrayList<Shape> shapes;
+"class PSMMAnimatedPanel extends JPanel implements Runnable {\n" ^
+"	private static final long serialVersionUID = 1L;\n" ^
+"	public ArrayList<Shape> shapes;\n" ^
+
+gl ^
 	
-	public PSMMAnimatedPanel() {
-		shapes = new ArrayList<Shape>();
+"	public PSMMAnimatedPanel() {\n" ^
+"		shapes = new ArrayList<Shape>();\n" ^
 		
-		// Create and add shapes
-		//Shape s1 = new Shape(new Rectangle(50, 100, 300, 250), new Color(200, 100, 10), Shape.Type.RECTANGLE);
-		//Shape s2 = new Shape(new Rectangle(550, 500, 100, 150), new Color(119, 37, 231), Shape.Type.ELLIPSE);
-		//shapes.add(s1);
-		//shapes.add(s2); " ^
+"		// Create and add shapes\n" ^
+"		//Shape s1 = new Shape(new Rectangle(50, 100, 300, 250), new Color(200, 100, 10), Shape.Type.RECTANGLE);\n" ^
+"		//Shape s2 = new Shape(new Rectangle(550, 500, 100, 150), new Color(119, 37, 231), Shape.Type.ELLIPSE);\n" ^
+"		//shapes.add(s1);\n" ^
+"		//shapes.add(s2);\n" ^
 
 (* Create and add shapes *)
 
-		^ "
-	}
-	
-	@Override
-	public void run() {
-		while (true) {
-			recalculateShapes();
-			repaint();
 
-			try {
-				Thread.sleep(1000 / 60);
-			} catch (InterruptedException e) {
+"	}\n" ^
+
+funs ^
+
+"	@Override\n" ^
+"	public void run() {\n" ^
+"		while (true) {\n" ^
+"			recalculateShapes();\n" ^
+"			repaint();\n" ^
+
+"			try {\n" ^
+"				Thread.sleep(1000 / 60);\n" ^
+"			} catch (InterruptedException e) {\n" ^
 				
-			}
-		}	
-	}
+"			}\n" ^
+"		}\n" ^	
+"	}\n" ^
 	
-	private void recalculateShapes() {
-		// Do stuff to shapes
-		
-		//for (Shape shape : shapes) {
-			//shape.frame.x++;
-		//} " ^
-
-(* Perform shape operations *)
-
-		^ "
-	}
+"	private void recalculateShapes() {\n" ^
+"		// Do stuff to shapes\n" ^
+"		drawloop();\n" ^
+"	}\n" ^
 	
-	public Dimension getPreferredSize() {
-		return new Dimension(" ^ window_size ^ ", " ^ window_size ^ ");
-	}
+"	public Dimension getPreferredSize() {\n" ^
+"		return new Dimension(" ^ string_of_int window_size ^ ", " ^ string_of_int window_size ^ ");\n" ^
+"	}\n" ^
 	
-	@Override
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		Graphics2D g2 = (Graphics2D) g;
+"	@Override\n" ^
+"	public void paintComponent(Graphics g) {\n" ^
+"		super.paintComponent(g);\n" ^
+"		Graphics2D g2 = (Graphics2D) g;\n" ^
 		
-		System.out.println(shapes.size());
+"		System.out.println(shapes.size());\n" ^
 		
-		for (Shape shape : shapes) {
-			g2.setColor(shape.color);
+"		for (Shape shape : shapes) {\n" ^
+"			g2.setColor(shape.color);\n" ^
 			
-			Rectangle frame = shape.frame;
+"			Rectangle frame = shape.frame;\n" ^
 			
-			if (shape.type == Shape.Type.ELLIPSE) {
-				g2.draw(new Ellipse2D.Double(frame.x, frame.y, frame.width, frame.height));
-			} else if (shape.type == Shape.Type.RECTANGLE) {
-				g2.draw(new Rectangle2D.Double(frame.x, frame.y, frame.width, frame.height));
-			}
-		}
-	}
-}
+"			if (shape.type == Shape.Type.ELLIPSE) {\n" ^
+"				g2.draw(new Ellipse2D.Double(frame.x, frame.y, frame.width, frame.height));\n" ^
+"			} else if (shape.type == Shape.Type.RECTANGLE) {\n" ^
+"				g2.draw(new Rectangle2D.Double(frame.x, frame.y, frame.width, frame.height));\n" ^
+"			}\n" ^
+"		}\n" ^
+"	}\n" ^
+"}\n" ^
 
-class Shape {
-	public enum Type {
-		RECTANGLE, ELLIPSE
-	}
+"class Shape {\n" ^
+"	public enum Type {\n" ^
+"		RECTANGLE, ELLIPSE\n" ^
+"	}\n" ^
 	
-	public Rectangle frame;
-	public Color color;
-	public Type type;
+"	public Rectangle frame;\n" ^
+"	public Color color;\n" ^
+"	public Type type;\n" ^
 	
-	public Shape(Rectangle frame, Color color, Type type) {
-		this.frame = frame;
-		this.color = color;
-		this.type = type;
-	}
-}
-";
+"	public Shape(Rectangle frame, Color color, Type type) {\n" ^
+"		this.frame = frame;\n" ^
+"		this.color = color;\n" ^
+"		this.type = type;\n" ^
+"	}\n" ^
+"}\n"  
+
+let generate_code fnv =
+        let oc = open_out (file_name ^ ".java") in 
+               fprintf oc "%s" (java_code fnv);
                  close_out oc;
-
-
