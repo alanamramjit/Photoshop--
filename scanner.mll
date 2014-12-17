@@ -68,11 +68,11 @@ rule token = parse
 	| identifier as lxm 	                { ID(lxm) } 
 	| eof 									{ EOF }
 	| digit+ as lxm 			        { LITERAL(int_of_string lxm) }
-	| _ as char 					        { raise (Failure("illegal character " ^ Char.escaped char)) }
+	| _ as char 					        { raise (Failure("Illegal Character: " ^ Char.escaped char)) }
 
 and comment = parse
 	'~' 									{ token lexbuf }
 	| _ 									{ comment lexbuf }
-	| eof 									{ raise (Failure ("unclosed comment" )) }   
+	| eof 									{ raise (Failure ("Unclosed Comment: All ~ comments ~ must have an opening and closing squiggle" )) }   
 
 

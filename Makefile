@@ -1,4 +1,4 @@
-OBJS = parser.cmo scanner.cmo ast.cmo codegen.cmo pmmc.cmo
+OBJS = parser.cmo scanner.cmo ast.cmo codegen.cmo semantic.cmo pmmc.cmo
  
 pmmc: $(OBJS)
 	ocamlc -o gen $(OBJS)
@@ -21,8 +21,8 @@ clean:
 
 ast.cmo:
 ast.cmx:
-pmmc.cmo: scanner.cmo parser.cmi ast.cmo codegen.cmo
-pmmc.cmx: scanner.cmx parser.cmx ast.cmx codegen.cmx
+pmmc.cmo: scanner.cmo parser.cmi ast.cmo codegen.cmo semantic.cmo
+pmmc.cmx: scanner.cmx parser.cmx ast.cmx codegen.cmx semantic.cmx
 parser.cmo: ast.cmo parser.cmi
 parser.cmx: ast.cmx parser.cmi
 scanner.cmo: parser.cmi
