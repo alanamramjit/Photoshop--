@@ -1,0 +1,7 @@
+#!/bin/bash
+
+./gen $1
+
+javac *.java
+
+java PSMMAnimator

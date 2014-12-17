@@ -1,7 +1,7 @@
 OBJS = parser.cmo scanner.cmo ast.cmo codegen.cmo pmmc.cmo
  
 pmmc: $(OBJS)
-	ocamlc -o pmmc $(OBJS)
+	ocamlc -o gen $(OBJS)
 
 scanner.ml: scanner.mll
 	ocamllex scanner.mll
@@ -17,7 +17,7 @@ parser.ml parser.mli: parser.mly
 	
 .PHONY: clean
 clean:
-	rm -f pmmc parser.ml parser.mli scanner.ml *.cmo *.cmi
+	rm -f parser.ml *.class *.java gen parser.mli scanner.ml *.cmo *.cmi
 
 ast.cmo:
 ast.cmx:
