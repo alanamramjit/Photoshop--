@@ -1,0 +1,21 @@
+rect myrect = 100, 350, 100, 100, red;
+ellipse myellipse = 600, 350, 100, 100, (100, 50, 200);
+
+bool collision = false;
+
+block myblock{
+   if (myrect.x + 50 == myellipse.x - 50) {
+      collision = true;
+   }
+   if (collision == true) {
+   	move myellipse right 1;
+   	move myrect left 1;
+   } else {
+   	move myellipse left 1;
+   	move myrect right 1;
+   	
+   }
+}
+drawloop {
+	run myblock;
+}

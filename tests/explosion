@@ -1,0 +1,27 @@
+rect r1 = 100, 350, 10, 10, blue;
+bool exploded = false;
+ellipse e1 = 350,350,10,10,red;
+ellipse e2 = 350,350,10,10,red;
+ellipse e3 = 350,350,10,10,red;
+ellipse e4 = 350,350,10,10,red;
+drawloop {
+	if (exploded == false) {
+		if(r1.x == 350) {
+			
+			exploded = true;
+
+		} else {
+			move r1 right 1;
+		}
+	} else {
+		move e1 right 1;
+		move e1 up 1;
+		move e2 right 1;
+		move e2 down 1;
+		move e3 left 1;
+		move e3 down 1;
+		move e4 left 1;
+		move e4 up 1;
+	}
+	
+}

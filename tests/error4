@@ -1,0 +1,4 @@
+rect myrect = 10,10,10,10,red;
+myrect = 40,40,40,40,green;
+
+drawloop {}
