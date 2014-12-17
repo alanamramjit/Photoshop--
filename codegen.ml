@@ -88,17 +88,15 @@ funs ^
 "		super.paintComponent(g);\n" ^
 "		Graphics2D g2 = (Graphics2D) g;\n" ^
 		
-"		System.out.println(shapes.size());\n" ^
-		
 "		for (Shape shape : shapes) {\n" ^
-"			g2.setColor(shape.color);\n" ^
+"			g2.setPaint(shape.color);\n" ^
 			
 "			Rectangle frame = shape.frame;\n" ^
 			
 "			if (shape.type == Shape.Type.ELLIPSE) {\n" ^
-"				g2.draw(new Ellipse2D.Double(frame.x, frame.y, frame.width, frame.height));\n" ^
+"				g2.fill(new Ellipse2D.Double(frame.x, frame.y, frame.width, frame.height));\n" ^
 "			} else if (shape.type == Shape.Type.RECTANGLE) {\n" ^
-"				g2.draw(new Rectangle2D.Double(frame.x, frame.y, frame.width, frame.height));\n" ^
+"				g2.fill(new Rectangle2D.Double(frame.x, frame.y, frame.width, frame.height));\n" ^
 "			}\n" ^
 "		}\n" ^
 "	}\n" ^
