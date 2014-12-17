@@ -95,4 +95,5 @@ let string_of_func f_decl = "public void " ^ f_decl.fname ^ "() {\n\t" ^ String.
 
 (* Returns a single string with the program's contents *)
 let check_program (gl, funs) =
-  String.concat "" (List.map string_of_vdecl (List.rev gl)) ^"\n" ^ String.concat "\n" (List.map string_of_func (List.rev funs)) ^ "\n" 
+  ignore(List.map string_of_vdecl (List.rev gl));
+  ignore(List.map string_of_func (List.rev funs));
