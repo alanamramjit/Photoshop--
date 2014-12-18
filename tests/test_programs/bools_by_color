@@ -1,0 +1,21 @@
+~Bools~
+~if bool is true then green else red. Blue if untouched~
+
+bool b1 = true;
+bool b2 = false;
+rect r1 = 10,10,300,300, blue;
+rect r2 = 10,360,300,300, blue;
+
+drawloop {
+	if(b1) {
+		r1.color = green;
+	} else {
+		r1.color = red;
+	}
+
+	if(b2) {
+		r2.color = green;
+	} else {
+		r2.color = red;
+	}
+}

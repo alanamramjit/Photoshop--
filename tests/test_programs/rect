@@ -1,0 +1,13 @@
+~Full screen~
+rect r0 = 0,0,700,700, blue;
+
+~Square~
+rect r1 = 10, 10, 100,100, red;
+
+~Rect~
+rect r2 = 120, 10, 50, 100, red;
+
+~Line~
+rect r3 = 180, 10, 300, 2, red;
+
+drawloop{}

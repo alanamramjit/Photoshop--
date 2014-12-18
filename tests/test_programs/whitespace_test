@@ -1,0 +1,25 @@
+~Test whitespace does not affect code~
+~new lines~
+
+int 
+a = 
+4;
+
+~tabs~
+		bool			b 	= 				true			;		
+rect 	myrect		 = 	10			, 	10,	 10 	, 	10 	, red;
+
+~regular spaces~
+
+
+block                  myblock				
+{
+   
+   put         myrect         at      100    	,       	 100;
+
+  
+} 
+
+drawloop {
+	run myblock;
+}

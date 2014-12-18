@@ -1,0 +1,25 @@
+~Colors test~
+
+rect r = 300,300,350,350,(0,0,0);
+int i = 0;
+
+drawloop {
+	if (i < 100) {
+		r.color = red;
+	} else if (i < 200) {
+		r.color = blue;
+	} else if (i < 300) {
+		r.color = green;
+	} else if (i < 400) {
+		r.color = (255,255,0);
+	} else if (i < 500) {
+		r.color = (255, 0, 255);
+	} else if (i < 600) {
+		r.color = (0,255,255);
+	} else if (i < 700) {
+		r.color = (255,255,255);
+	} else if (i == 700) {
+		i = 0;
+	}
+	i = i + 1;
+}
