@@ -7,7 +7,35 @@ Get Started
 -----------
 Check out [our final paper](http://www.cs.columbia.edu/~sedwards/classes/2014/w4115-fall/index.html) for documentation and tutorials.
 
-About
+Animate Shapes with Ease
+-----------------------
+Draw shapes and animate with ease.
+`drawloop` runs 60 times per second. After each, the canvas repaints the shapes.
+```
+ellipse mySecondCircle = 0, 0, 100, 100, blue;
+
+drawloop {
+	mySecondCircle.x = mySecondCircle.x + 1;
+}
+```
+
+Move a ball from left to right with edge detection.
+```
+ellipse mySecondCircle = 0, 0, 100, 100, blue;
+int velocityX = 1;
+
+drawloop {
+	if (mySecondCircle.x < 0) {
+		velocityX = 1;
+	} else if (mySecondCircle.x + mySecondCircle.width > 700) {
+		velocityX = -1;
+	}
+
+	mySecondCircle.x = mySecondCircle.x + velocityX;
+}
+```
+
+Inspiration
 -----
 One of the most troublesome aspects of learning to program is the lack of visualization. After “hello world,” programs quickly become more complex, adding steps in the production of each output. Photoshop-- poses a solution to the widening gap between number of lines of code and the amount of feedback given for each.
 
