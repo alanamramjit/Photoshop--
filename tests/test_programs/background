@@ -1,16 +1,15 @@
-background = red;
 int i = 0;
 
 drawloop {
 	if(i < 30) {
-		background = red;
+		background red;
 	} else if (i < 60) {
-		background = blue;
+		background blue;
 	} else if (i < 90) {
-		background = green;
+		background green;
 	} else if (i < 120) {
 		~Test rgb tuple works with background~
-		background = (0,0,0);
+		background (0,0,0);
 	}
 
 	if (i == 120) {

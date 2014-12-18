@@ -1,3 +1,5 @@
+~Test blocks~
+
 rect r = 10,10,330,330,red;
 bool b = true;
 int i = 0;
@@ -14,17 +16,17 @@ block checkAndIncrement {
 	i = i+1;
 }
 
-block putAtQuad2or4 {
+block putInQuadrant2or4 {
 	if(b) {
+		~Quadrant 4~
 		put r at 360,360;
 	} else {
+		~Quadrant 2~
 		put r at 10,10;
 	}
 }
 
 drawloop {	
-	run putAtQuad2or4;
+	run putInQuadrant2or4;
 	run checkAndIncrement;
-	
-	
 }
