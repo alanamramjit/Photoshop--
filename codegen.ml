@@ -126,5 +126,5 @@ let java_code (s_decls, add, funs) =
 (* Generates the Java code and prints it to a file *)
 let generate_code fnv =
         let oc = open_out (file_name ^ ".java") in 
-               fprintf oc "%s" (java_code fnv);
-                 close_out oc;
+            fprintf oc "%s" (java_code fnv);
+            close_out oc;

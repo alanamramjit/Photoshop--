@@ -34,19 +34,21 @@ program:
 
 
 fdecl:
-          BLOCK ID LBRACE stmt_list RBRACE
-         {
-             {    
-                fname = $2;
-                body = List.rev $4;
-              }
-          }
-  
-      | DRAWLOOP LBRACE stmt_list RBRACE{ 
-                                         { fname = "drawloop";
-                                           body = List.rev $3;
-                                           }
-                                         }
+    BLOCK ID LBRACE stmt_list RBRACE
+    {
+      {    
+        fname = $2;
+        body = List.rev $4;
+      }
+    }
+
+  | DRAWLOOP LBRACE stmt_list RBRACE
+    { 
+      { 
+        fname = "drawloop";
+        body = List.rev $3;
+      }
+    }
 
 color:
     RED           { (255, 0, 0) }
@@ -71,9 +73,9 @@ vdecl:
         scolor = $12;
       }
     )}
-  | INT ID                    {Def(Int, $2, Literal(0) )}
-  | BOOL ID                   {Def(Bool, $2, Literal(0) )}
-  | INT ID ASSIGN expr SEMICOLON       {Def(Int, $2, $4)}
+  | INT ID                          {Def(Int, $2, Literal(0) )}
+  | BOOL ID                         {Def(Bool, $2, Literal(0) )}
+  | INT ID ASSIGN expr SEMICOLON    {Def(Int, $2, $4)}
   | BOOL ID ASSIGN expr SEMICOLON   {Def(Bool, $2, $4)}
  
 stmt_list:
