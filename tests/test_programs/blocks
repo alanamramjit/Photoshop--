@@ -1,0 +1,30 @@
+rect r = 10,10,330,330,red;
+bool b = true;
+int i = 0;
+
+block checkAndIncrement {
+	if(i == 30) {
+		if(b) {
+			b = false;
+		} else {
+			b = true;
+		}
+		i = 0;
+	}
+	i = i+1;
+}
+
+block putAtQuad2or4 {
+	if(b) {
+		put r at 360,360;
+	} else {
+		put r at 10,10;
+	}
+}
+
+drawloop {	
+	run putAtQuad2or4;
+	run checkAndIncrement;
+	
+	
+}

@@ -1,0 +1,27 @@
+~if else~
+
+
+bool b1 = false;
+rect r1 = 10,10,330,330, blue;
+rect r2 = 10,360, 330,330, blue;
+rect r3 = 360,10,330,330, blue;
+drawloop {
+	if(b1 != true) {
+		r1.color = green;
+	} else {
+		r1.color = red;
+	}
+	
+
+	if (b1) {
+		r2.color = red;
+	} else {
+		r2.color = green;
+	}
+
+	if (b1 == false) {
+		r3.color = green;
+	} else {
+		r3.color = red;
+	}
+}
