@@ -73,6 +73,6 @@ rule token = parse
 and comment = parse
 	'~' 									{ token lexbuf }
 	| _ 									{ comment lexbuf }
-	| eof 									{ raise (Failure ("Unclosed Comment: All ~ comments ~ must have an opening and closing squiggle" )) }   
+	| eof 									{ raise (Failure ("Unclosed Comment: All comments must have both opening and closing squiggles" )) }   
 
 
