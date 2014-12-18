@@ -1,0 +1,3 @@
+~Ensure keywords cannot be used as variable names~
+int put = 10;
+drawloop{}

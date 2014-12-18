@@ -1,0 +1,4 @@
+~does not allow any empty statements outside or inside drawloop~
+;
+
+drawloop {  }
